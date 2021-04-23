@@ -1,0 +1,19 @@
+.products {
+  width: 1243px;
+  padding: 0 20px;
+  .products__option {
+    height: 48px;
+    padding-bottom: 32px;
+    display: flex;
+    align-items: center;
+
+    .sort {
+      &__label {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: var(--greyish);
+      }
+    }
+  }
+}

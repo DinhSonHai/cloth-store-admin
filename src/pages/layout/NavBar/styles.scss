@@ -1,0 +1,74 @@
+.admin-navbar {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 20px;
+
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1.29;
+    color: var(--dark-grey);
+  }
+
+  .account {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    .avatar {
+      margin-right: 16px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      box-shadow: 0 5px 20px 0 rgba(61, 61, 63, 0.2);
+    }
+
+    .name {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.71;
+      color: var(--dark-grey);
+    }
+
+    &:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 49px;
+      width: 181px;
+      height: 75px;
+      box-shadow: 0 14px 30px 0 rgba(0, 0, 0, 0.14);
+      border: solid 0.5px var(--white-six);
+      background-color: var(--white-five);
+
+      & > div {
+        height: 36px;
+        display: flex;
+        align-items: center;
+      }
+
+      &__link {
+        cursor: pointer;
+        padding: 7px 0 7px 13px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.83;
+        color: var(--greyish-brown);
+      }
+
+      &__divider {
+        height: 1px;
+        background-color: #ececec;
+      }
+    }
+  }
+}
