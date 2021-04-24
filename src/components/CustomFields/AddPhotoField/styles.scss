@@ -1,0 +1,60 @@
+.add-photo-field {
+  height: 346px;
+  .add-photos {
+    margin-left: 146px;
+    margin-right: 220px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .label {
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 1.17;
+      text-align: right;
+      color: var(--dark-grey);
+    }
+
+    .photos__item {
+      width: 180px;
+      height: 270px;
+      background-color: red;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      .close-icon {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+
+      .add-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.83;
+        letter-spacing: normal;
+        color: var(--greyish);
+
+        & > p {
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+  .note {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    color: var(--greyish);
+    margin: 16px 214px 0;
+  }
+}

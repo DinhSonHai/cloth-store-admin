@@ -11,12 +11,13 @@ NavBar.propTypes = {
 
 };
 
-function NavBar({ user, title, logout }) {
+function NavBar({ user, title, subTitle, logout }) {
   const history = useHistory();
 
   return (
     <div className="admin-navbar">
       <h1 className="title">{title}</h1>
+      { subTitle && <p className="sub-title">{subTitle}</p>}
       { user && (
         <div className="account">
           <img src={user.avatar} alt="Admin avatar" className="avatar" />

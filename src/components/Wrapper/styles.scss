@@ -1,0 +1,9 @@
+.wrapper {
+  background-color: var(--white-two);
+  display: flex;
+
+  .sidebar {
+    width: 220px;
+    border-right: 1px solid var(--white-three);
+  }
+}

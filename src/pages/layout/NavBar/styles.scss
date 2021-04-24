@@ -5,12 +5,23 @@
   justify-content: space-between;
   margin: 0 20px;
   margin-bottom: 20px;
+  position: relative;
 
   .title {
     font-size: 28px;
     font-weight: bold;
     line-height: 1.29;
     color: var(--dark-grey);
+  }
+
+  .sub-title {
+    position: absolute;
+    top: 76px;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    line-height: 1.43;
+    color: var(--charcoal-grey);
   }
 
   .account {

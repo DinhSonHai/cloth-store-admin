@@ -4,6 +4,7 @@ import AuthRoute from './AuthRoute';
 
 import * as pages from '../pages';
 import PrivateRoute from './PrivateRoute';
+import Wrapper from '../components/Wrapper';
 
 export default function routes() {
   return (
@@ -11,10 +12,10 @@ export default function routes() {
       <ToastContainer hideProgressBar={true} />
       <Switch>
         <Route exact path="/" render={() =>
-          (<Redirect to="/admin" />)}
+          (<Redirect to="/admin/products" />)}
         />
         <AuthRoute exact path="/admin/login" component={pages.LoginPage} />
-        <PrivateRoute exact path="/admin" component={pages.AdminPage} />
+        <PrivateRoute exact path="/admin/products" component={pages.ProductsPage} />
       </Switch>
     </div>
   )

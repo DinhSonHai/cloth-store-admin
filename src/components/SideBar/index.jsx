@@ -11,7 +11,7 @@ SideBar.propTypes = {
 
 function SideBar({ tabState, setTabState }) {
   return (
-    <div className="side-bar">
+    <Fragment>
       <Link to="/admin" className="logo">
         <AdminHomePageLogo />
       </Link>
@@ -45,7 +45,7 @@ function SideBar({ tabState, setTabState }) {
           )}
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 }
 
