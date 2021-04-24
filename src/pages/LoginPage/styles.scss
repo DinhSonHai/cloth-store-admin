@@ -62,6 +62,13 @@
         font-weight: 600;
         line-height: 1.71;
         color: var(--white);
+        position: relative;
+
+        .spinner {
+          position: absolute;
+          left: 50px;
+          top: 5px;
+        }
 
         &:disabled {
           cursor: default;
