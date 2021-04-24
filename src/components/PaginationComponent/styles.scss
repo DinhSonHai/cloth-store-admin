@@ -1,0 +1,54 @@
+.page {
+  display: flex;
+  & > button {
+    border: solid 1px var(--white-three);
+    background-color: var(--white);
+  }
+
+  .page__item {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    color: var(--charcoal-grey);
+
+    &--active {
+      color: var(--white);
+      border-color: #ffa15f;
+      background-color: #ffa15f;
+    }
+  }
+
+  .first-page {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .prev {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .next {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .last-page {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

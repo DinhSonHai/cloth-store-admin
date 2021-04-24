@@ -24,6 +24,7 @@ function SelectBox({ handleSort, sortState, setSortState }) {
     else if (type === 'profit') {
       setSortState('Profit');
     }
+    setOpen(false)
     // handleSort(type);
   }
 

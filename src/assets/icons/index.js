@@ -84,6 +84,42 @@ export const DropDown = () => (
   </svg>
 )
 
+export const EditIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="#9B9B9B" fillRule="evenodd" d="M4 16.854v2.702a.44.44 0 0 0 .444.444h2.702a.417.417 0 0 0 .311-.133l9.706-9.697-3.333-3.333-9.697 9.697a.436.436 0 0 0-.133.32zm15.74-9.261a.885.885 0 0 0 0-1.253l-2.08-2.08a.885.885 0 0 0-1.253 0l-1.626 1.626 3.333 3.333 1.626-1.626z" />
+  </svg>
+)
+
+export const RemoveIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="#9B9B9B" fillRule="evenodd" d="M7 18c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V8H7v10zM17 5h-2l-.71-.71c-.18-.18-.44-.29-.7-.29h-3.18c-.26 0-.52.11-.7.29L9 5H7c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1z" />
+  </svg>
+)
+
+export const FirstPage = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="#9B9B9B" fillRule="evenodd" d="M17.699 15.89L13.819 12l3.89-3.89a.996.996 0 1 0-1.41-1.41l-4.59 4.59a.996.996 0 0 0 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0a.993.993 0 0 0-.01-1.4zM6.999 6c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1z" />
+  </svg>
+)
+
+export const LastPage = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="#9B9B9B" fillRule="evenodd" d="M6.291 8.11l3.89 3.89-3.89 3.89a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41l-4.59-4.6a.996.996 0 0 0-1.41 0c-.38.39-.38 1.03 0 1.41zM17.001 6c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1z" />
+  </svg>
+)
+
+export const Next = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="#9B9B9B" fillRule="evenodd" d="M9 6.71a.996.996 0 0 0 0 1.41L12.88 12 9 15.88a.996.996 0 1 0 1.41 1.41L15 12.7a.996.996 0 0 0 0-1.41L10.41 6.7c-.38-.38-1.02-.38-1.41.01z" />
+  </svg>
+)
+
+export const Prev = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="#9B9B9B" fillRule="evenodd" d="M15 6.705a.996.996 0 0 0-1.41 0L9 11.295a.996.996 0 0 0 0 1.41l4.59 4.59a.996.996 0 1 0 1.41-1.41l-3.88-3.89L15 8.115c.39-.39.38-1.03 0-1.41z" />
+  </svg>
+)
+
 export const Minus = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
     <path fill="#3D3D3F" fillRule="evenodd" d="M16.307 13.308H8.692a.805.805 0 0 1-.807-.808c0-.446.361-.808.808-.808h7.615a.808.808 0 0 1 0 1.616z" />
