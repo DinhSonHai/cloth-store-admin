@@ -40,3 +40,15 @@ export const addProduct = async (formData) => {
     }
   }
 }
+
+export const removeProduct = (productId) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/products/${productId}`);
+    dispatch(getAllProductsForAdmin());
+  } catch (err) {
+    const error = err.response.data;
+    if (error) {
+      toast.error(error.message);
+    }
+  }
+}

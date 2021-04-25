@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
 // import PropTypes from 'prop-types';
 
-import { getAllProductsForAdmin } from '../../redux/actions/products';
+import { getAllProductsForAdmin, removeProduct } from '../../redux/actions/products';
 import Spinner from '../../components/Spinner';
 import PaginationComponent from '../../components/PaginationComponent';
 import SortBox from '../../components/CustomFields/SortBox';
@@ -15,7 +16,7 @@ ProductsPage.propTypes = {
 
 };
 
-function ProductsPage({ products, setSubTitle, getAllProductsForAdmin }) {
+function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removeProduct }) {
   const history = useHistory();
   const wrapperRef = useRef();
 
@@ -62,6 +63,23 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin }) {
 
   const handleAddProduct = () => {
     return history.push("/admin/products/add");
+  }
+
+  const handleRemoveProduct = (productId) => {
+    confirmAlert({
+      title: 'Confirm to remove product',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => removeProduct(productId)
+        },
+        {
+          label: 'No',
+          onClick: () => { }
+        }
+      ]
+    });
   }
 
   return (
@@ -134,7 +152,7 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin }) {
                               <EditIcon />
                               <p>Edit</p>
                             </div>
-                            <div>
+                            <div onClick={() => handleRemoveProduct(product._id)}>
                               <RemoveIcon />
                               <p>Remove</p>
                             </div>
@@ -177,4 +195,4 @@ const mapStateToProps = (state) => ({
   products: state.products.products
 })
 
-export default connect(mapStateToProps, { getAllProductsForAdmin })(ProductsPage);
+export default connect(mapStateToProps, { getAllProductsForAdmin, removeProduct })(ProductsPage);
