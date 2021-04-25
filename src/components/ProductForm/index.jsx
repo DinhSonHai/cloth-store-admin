@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
+import { addProduct } from '../../redux/actions/products';
 import Spinner from '../Spinner';
 import TextField from '../CustomFields/TextField';
 import './styles.scss';
@@ -15,16 +17,27 @@ ProductForm.propTypes = {
 
 };
 
-function ProductForm(props) {
-  const [loading, setLoading] = useState(false);
+function ProductForm({ categoriesData, brandsData, sizesData, colorsData, photoList }) {
+  const history = useHistory();
 
+  const [loading, setLoading] = useState(false);
   const validate = Yup.object({
-    email: Yup.string()
-      .email('Please enter a valid email!')
-      .required('Please enter a valid email!'),
-    password: Yup.string()
-      .min(6, 'Your passwords must be more than 6 characters!')
-      .required('Please enter a valid password!')
+    name: Yup.string()
+      .required('Please enter a valid name!'),
+    categories: Yup.array()
+      .min(1, 'Please select categories!'),
+    brand: Yup.string()
+      .required('Please select brand!'),
+    price: Yup.number()
+      .required('Please enter a valid price!'),
+    sizes: Yup.array()
+      .min(1, 'Please select sizes!'),
+    colors: Yup.array()
+      .min(1, 'Please select colors!'),
+    quantity: Yup.number()
+      .required('Please enter a valid quantity!'),
+    description: Yup.string()
+      .required('Please enter description')
   })
 
   return (
@@ -41,24 +54,32 @@ function ProductForm(props) {
           quantity: '',
           description: ''
         }}
-        // validationSchema={validate}
+        validationSchema={validate}
         onSubmit={values => {
-          setLoading(true);
-          const categories = values.categories.map(item => item.value)
-          console.log(categories);
-          // login(values, hideLogin);
-          console.log(values);
-          setLoading(false);
+          const categories = values.categories.map(item => item.value);
+          const sizes = values.sizes.map(item => item.value);
+          const colors = values.colors.map(item => item.value);
+          async function sendData() {
+            setLoading(true);
+            const result = await addProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList });
+            setLoading(false);
+            if (result) {
+              return history.push("/admin/products");
+            }
+          }
+          sendData();
         }}
-      // validateOnMount
+        validateOnMount
       >
         {formik => (
           <Form className="content__form">
             <TextField type="text" label="NAME" id="name" name="name" placeholder="Enter product name..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            <TextField type="text" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            <TextField type="text" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+            <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categoriesData.map(category => ({ value: category._id, label: category.categoryName }))} />
+            <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={brandsData.map(brand => ({ value: brand._id, label: brand.brand }))} />
+            <TextField type="number" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+            <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizesData.map(size => ({ value: size._id, label: size.sizeName }))} />
+            <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colorsData.map(color => ({ value: color._id, label: color.colorName }))} />
+            <TextField type="number" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
             <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
             <div className="button">
               <button className="button__cancel">Cancel</button>

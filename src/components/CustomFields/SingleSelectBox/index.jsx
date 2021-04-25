@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { ErrorMessage, useField, Field } from 'formik';
 
@@ -9,6 +9,8 @@ SingleSelectBox.propTypes = {
 };
 
 function SingleSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, ...props }) {
+  const [selectedOption, setSelectedOption] = useState(null);
+
   const customStyles = {
     control: (styles) => ({
       width,
@@ -18,11 +20,9 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
       display: 'flex',
       fontSize: '14px',
       fontWeight: '500',
-      fontStretch: 'normal',
-      fontStyle: 'normal',
       lineHeight: '1.43',
-      letterSpacing: 'normal',
-      color: 'var(--charcoal-grey)'
+      color: 'var(--charcoal-grey)',
+      padding: "6px"
     }),
     option: (styles) => ({
       cursor: 'pointer',
@@ -39,8 +39,15 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
       lineHeight: '1.43',
       letterSpacing: 'normal',
       color: 'var(--charcoal-grey)'
-    })
+    }),
+    // singleValue: (styles) => ({ color: "rgba(77, 77, 77, 0.5)" })
   }
+
+  const handleChange = (option, setFieldValue) => {
+    setSelectedOption(option);
+    setFieldValue(name, option.value);
+  }
+
   return (
     <Field id={id} name={name}>
       {({ field, form: { setFieldValue } }) => (
@@ -50,15 +57,14 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
               <label style={{ color: labelColor }} className="single-select-box__label" htmlFor={name}>{label}</label>
             </Fragment>)}
           <Select
-            className="single-select-box__select"
             {...field}
             {...props}
-            value={{ value: 'default', label: 'Select brand...' }}
+            value={selectedOption}
             isSearchable={false}
             isClearable={false}
-            styles={customStyles}
             options={options}
-            onChange={option => setFieldValue(name, option.value)}
+            styles={customStyles}
+            onChange={option => handleChange(option, setFieldValue)}
           />
           <ErrorMessage name={name} component="div" className="single-select-box__error" />
         </div>

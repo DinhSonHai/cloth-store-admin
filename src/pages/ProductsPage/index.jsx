@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
-import { getAllProducts } from '../../redux/actions/products';
+import { getAllProductsForAdmin } from '../../redux/actions/products';
 import Spinner from '../../components/Spinner';
 import PaginationComponent from '../../components/PaginationComponent';
 import SortBox from '../../components/CustomFields/SortBox';
@@ -15,7 +15,7 @@ ProductsPage.propTypes = {
 
 };
 
-function ProductsPage({ products, setSubTitle, getAllProducts }) {
+function ProductsPage({ products, setSubTitle, getAllProductsForAdmin }) {
   const history = useHistory();
   const wrapperRef = useRef();
 
@@ -28,7 +28,7 @@ function ProductsPage({ products, setSubTitle, getAllProducts }) {
   useEffect(() => {
     async function handleGetData() {
       setLoading(true);
-      await getAllProducts();
+      await getAllProductsForAdmin();
       setLoading(false);
     }
     handleGetData();
@@ -36,7 +36,7 @@ function ProductsPage({ products, setSubTitle, getAllProducts }) {
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProducts]);
+  }, [getAllProductsForAdmin]);
 
   const handleOpenLimit = () => {
     setOpenLimit(!isOpenLimit);
@@ -177,4 +177,4 @@ const mapStateToProps = (state) => ({
   products: state.products.products
 })
 
-export default connect(mapStateToProps, { getAllProducts })(ProductsPage);
+export default connect(mapStateToProps, { getAllProductsForAdmin })(ProductsPage);

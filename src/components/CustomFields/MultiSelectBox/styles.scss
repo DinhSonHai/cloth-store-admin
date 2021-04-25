@@ -12,4 +12,12 @@
     top: 23px;
     right: 823px;
   }
+
+  &__error {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 2.2;
+    color: var(--strawberry);
+  }
 }

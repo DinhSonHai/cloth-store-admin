@@ -18,7 +18,7 @@ function TextAreaField({ label, width, height, backgroundColor, ...props }) {
         style={{ width, height, backgroundColor }}
         autoComplete="off"
       />
-      <ErrorMessage name={field.name} component="div" className="text-field__error" />
+      <ErrorMessage name={field.name} component="div" className="text-area-field__error" />
     </div>
   );
 }

@@ -32,6 +32,13 @@
         line-height: 1.71;
         letter-spacing: normal;
         color: var(--white);
+        position: relative;
+
+        .spinner {
+          position: absolute;
+          top: 5px;
+          left: 8px;
+        }
 
         &:disabled {
           background-color: var(--white-four);

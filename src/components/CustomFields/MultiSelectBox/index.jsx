@@ -8,11 +8,11 @@ MultiSelectBox.propTypes = {
 
 };
 
-function MultiSelectBox({ id, name, label, width, height, labelColor, backgroundColor, ...props }) {
-  const options = [
-    { value: 'cancel', label: 'Cancle order' },
-    { value: 'hello', label: 'Hello' }
-  ];
+function MultiSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, ...props }) {
+  // const options = [
+  //   { value: 'cancel', label: 'Cancle order' },
+  //   { value: 'hello', label: 'Hello' }
+  // ];
 
   const customStyles = {
     control: (styles) => ({
@@ -23,11 +23,9 @@ function MultiSelectBox({ id, name, label, width, height, labelColor, background
       display: 'flex',
       fontSize: '14px',
       fontWeight: '500',
-      fontStretch: 'normal',
-      fontStyle: 'normal',
       lineHeight: '1.43',
-      letterSpacing: 'normal',
-      color: 'var(--charcoal-grey)'
+      color: 'var(--charcoal-grey)',
+      padding: "6px"
     }),
     option: (styles) => ({
       cursor: 'pointer',
@@ -44,7 +42,8 @@ function MultiSelectBox({ id, name, label, width, height, labelColor, background
       lineHeight: '1.43',
       letterSpacing: 'normal',
       color: 'var(--charcoal-grey)'
-    })
+    }),
+    placeholder: (styles) => ({ color: "rgba(77, 77, 77, 0.5)" })
   }
 
   return (

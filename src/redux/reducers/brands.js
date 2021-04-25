@@ -1,23 +1,22 @@
 import {
-  GET_ALL_PRODUCTS
+  GET_ALL_BRANDS
 } from '../types';
 
 const initialState = {
-  products: [],
+  brands: [],
   total: 0,
-  product: null
+  brand: null
 };
 
-export default function products(state = initialState, action) {
+export default function brands(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case GET_ALL_PRODUCTS:
+    case GET_ALL_BRANDS:
       return {
         ...state,
-        products: payload,
+        brands: payload,
         total: payload.length
       }
-    // case ADD_PRODUCT_SUCCESS:
     default:
       return state;
   }
