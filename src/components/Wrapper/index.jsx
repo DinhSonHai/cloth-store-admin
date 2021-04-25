@@ -10,7 +10,7 @@ Wrapper.propTypes = {
 };
 
 function Wrapper({ children }) {
-  const [title, setTitle] = useState('Products');
+  const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
   return (
     <div className="wrapper">
@@ -18,7 +18,6 @@ function Wrapper({ children }) {
         <SideBar />
       </div>
       <div className="content">
-
         <NavBar title={title} subTitle={subTitle} />
         {children}
       </div>

@@ -49,7 +49,7 @@ function LoginPage({ auth, login }) {
               const isSuccess = await login(values);
               setLoading(false);
               if (isSuccess) {
-                history.push("/admin");
+                history.push("/");
               }
             }
             handleLogin();

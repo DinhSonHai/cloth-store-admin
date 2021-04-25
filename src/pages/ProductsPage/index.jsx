@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
 import { getAllProducts } from '../../redux/actions/products';
@@ -15,6 +16,7 @@ ProductsPage.propTypes = {
 };
 
 function ProductsPage({ products, setSubTitle, getAllProducts }) {
+  const history = useHistory();
   const wrapperRef = useRef();
 
   const [loading, setLoading] = useState(false);
@@ -58,6 +60,10 @@ function ProductsPage({ products, setSubTitle, getAllProducts }) {
     }
   }
 
+  const handleAddProduct = () => {
+    return history.push("/admin/products/add");
+  }
+
   return (
     <Wrapper>
       <div className="products">
@@ -73,7 +79,7 @@ function ProductsPage({ products, setSubTitle, getAllProducts }) {
                 <SearchIconv2 />
                 <input className="search__input" type="text" placeholder="Search product" />
               </div>
-              <div className="add">
+              <div className="add" onClick={handleAddProduct}>
                 <span className="add__icon"><PlusWhite /></span>
                 <p className="add__name">Add product</p>
               </div>

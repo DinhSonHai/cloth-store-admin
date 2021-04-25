@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 
+import Wrapper from '../../components/Wrapper';
 import AddPhotoField from '../../components/CustomFields/AddPhotoField';
 import './styles.scss';
 
@@ -8,11 +9,15 @@ AddProductPage.propTypes = {
 
 };
 
-function AddProductPage(props) {
+function AddProductPage({ }) {
+  const [photoList, setPhotoList] = useState([]);
+
   return (
-    <div className="add-product">
-      <AddPhotoField />
-    </div>
+    <Wrapper>
+      <Fragment>
+        <AddPhotoField photoList={photoList} setPhotoList={setPhotoList} />
+      </Fragment>
+    </Wrapper>
   );
 }
 

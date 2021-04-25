@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../../redux/actions/auth';
 // import PropTypes from 'prop-types';
 
@@ -13,11 +13,33 @@ NavBar.propTypes = {
 
 function NavBar({ user, title, subTitle, logout }) {
   const history = useHistory();
+  const location = useLocation().pathname;
+
+  const getTitle = (route) => {
+    if (location.length === 1) {
+      return null;
+    }
+    return location === route;
+  }
 
   return (
     <div className="admin-navbar">
-      <h1 className="title">{title}</h1>
-      { subTitle && <p className="sub-title">{subTitle}</p>}
+
+      {
+        getTitle("/admin/products") &&
+        <Fragment>
+          <p className="title">Products</p>
+        </Fragment>
+      }
+
+      {
+        getTitle("/admin/products/add") &&
+        <Fragment>
+          <p className="title">Add product</p>
+          <p className="sub-title">Products / Add product</p>
+        </Fragment>
+      }
+
       { user && (
         <div className="account">
           <img src={user.avatar} alt="Admin avatar" className="avatar" />

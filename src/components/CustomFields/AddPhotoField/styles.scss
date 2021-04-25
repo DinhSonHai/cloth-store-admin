@@ -1,5 +1,7 @@
 .add-photo-field {
+  width: 1243px;
   height: 346px;
+  margin-top: 60px;
   .add-photos {
     margin-left: 146px;
     margin-right: 220px;
@@ -18,12 +20,29 @@
     .photos__item {
       width: 180px;
       height: 270px;
-      background-color: red;
+      background-color: rgba(255, 255, 255, 0.5);
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      position: relative;
+
+      & > img {
+        width: 180px;
+        height: 270px;
+      }
+
+      & > label {
+        position: absolute;
+        width: 180px;
+        height: 270px;
+        cursor: pointer;
+
+        & > input {
+          opacity: 0;
+        }
+      }
 
       .close-icon {
         position: absolute;
@@ -55,6 +74,6 @@
     font-weight: 500;
     line-height: 1.43;
     color: var(--greyish);
-    margin: 16px 214px 0;
+    margin: 16px 225px 0;
   }
 }
