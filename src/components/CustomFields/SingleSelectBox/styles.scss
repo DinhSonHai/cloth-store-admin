@@ -1,0 +1,15 @@
+.single-select-box {
+  padding-top: 6px;
+  margin-bottom: 24px;
+  position: relative;
+  &__label {
+    position: absolute;
+    height: 18px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--dark-grey);
+    top: 23px;
+    right: 823px;
+  }
+}

@@ -8,6 +8,7 @@ import Spinner from '../Spinner';
 import TextField from '../CustomFields/TextField';
 import './styles.scss';
 import TextAreaField from '../CustomFields/TextAreaField';
+import SingleSelectBox from '../CustomFields/SingleSelectBox';
 
 ProductForm.propTypes = {
 
@@ -39,17 +40,19 @@ function ProductForm(props) {
           quantity: '',
           description: ''
         }}
-        validationSchema={validate}
+        // validationSchema={validate}
         onSubmit={values => {
           setLoading(true);
           // login(values, hideLogin);
+          console.log(values)
           setLoading(false);
         }}
-        validateOnMount
+      // validateOnMount
       >
         {formik => (
           <Form className="content__form">
             <TextField type="text" label="NAME" id="name" name="name" placeholder="Enter product name..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+            <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
             <TextField type="text" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
             <TextField type="text" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
             <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
