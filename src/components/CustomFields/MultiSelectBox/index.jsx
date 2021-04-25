@@ -4,11 +4,16 @@ import { ErrorMessage, useField, Field } from 'formik';
 
 import './styles.scss';
 
-SingleSelectBox.propTypes = {
+MultiSelectBox.propTypes = {
 
 };
 
-function SingleSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, ...props }) {
+function MultiSelectBox({ id, name, label, width, height, labelColor, backgroundColor, ...props }) {
+  const options = [
+    { value: 'cancel', label: 'Cancle order' },
+    { value: 'hello', label: 'Hello' }
+  ];
+
   const customStyles = {
     control: (styles) => ({
       width,
@@ -41,30 +46,32 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
       color: 'var(--charcoal-grey)'
     })
   }
+
   return (
     <Field id={id} name={name}>
       {({ field, form: { setFieldValue } }) => (
-        <div className="single-select-box">
+        <div className="multi-select-box">
           { label && (
             <Fragment>
-              <label style={{ color: labelColor }} className="single-select-box__label" htmlFor={name}>{label}</label>
+              <label style={{ color: labelColor }} className="multi-select-box__label" htmlFor={name}>{label}</label>
             </Fragment>)}
           <Select
-            className="single-select-box__select"
+            className="multi-select-box__select"
             {...field}
             {...props}
-            value={{ value: 'default', label: 'Select brand...' }}
+            isMulti
+            // value={{ value: 'default', label: 'Select categories...' }}
             isSearchable={false}
             isClearable={false}
             styles={customStyles}
             options={options}
-            onChange={option => setFieldValue(name, option.value)}
+            onChange={option => setFieldValue(name, option)}
           />
-          <ErrorMessage name={name} component="div" className="single-select-box__error" />
+          <ErrorMessage name={name} component="div" className="multi-select-box__error" />
         </div>
       )}
     </Field>
   )
 }
 
-export default SingleSelectBox;
+export default MultiSelectBox;
