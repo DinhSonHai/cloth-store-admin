@@ -1,0 +1,42 @@
+.product__form {
+  .content__form {
+    margin: 0 220px 74px;
+    .button {
+      display: flex;
+      justify-content: flex-end;
+
+      .button__cancel {
+        width: 180px;
+        height: 48px;
+        background-color: var(--white);
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.71;
+        letter-spacing: normal;
+        color: #ffa15f;
+        margin-right: 20px;
+      }
+
+      .button__complete {
+        width: 180px;
+        height: 48px;
+        background-color: #ffa15f;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.71;
+        letter-spacing: normal;
+        color: var(--white);
+
+        &:disabled {
+          background-color: var(--white-four);
+        }
+      }
+    }
+  }
+}

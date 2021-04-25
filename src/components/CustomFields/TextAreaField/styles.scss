@@ -1,4 +1,4 @@
-.text-field {
+.text-area-field {
   margin-bottom: 24px;
   position: relative;
   &__label {
@@ -8,19 +8,19 @@
     font-size: 12px;
     line-height: 1.5;
     color: var(--dark-grey);
-    top: 23px;
+    top: 75px;
     right: 823px;
   }
 
-  &__input {
-    font-family: "Montserrat";
+  &__textarea {
     margin-top: 8px;
     padding: 12px 0 12px 24px;
     border: none;
-    font-weight: 500;
+    font-family: Montserrat;
     font-size: 14px;
-    color: var(--dark-grey);
+    font-weight: 500;
     line-height: 1.57;
+    color: var(--charcoal-grey);
 
     &::placeholder {
       color: rgba(77, 77, 77, 0.5);

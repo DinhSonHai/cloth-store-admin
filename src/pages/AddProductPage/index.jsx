@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Wrapper from '../../components/Wrapper';
 import AddPhotoField from '../../components/CustomFields/AddPhotoField';
 import './styles.scss';
+import ProductForm from '../../components/ProductForm';
 
 AddProductPage.propTypes = {
 
@@ -16,6 +17,7 @@ function AddProductPage({ }) {
     <Wrapper>
       <Fragment>
         <AddPhotoField photoList={photoList} setPhotoList={setPhotoList} />
+        <ProductForm />
       </Fragment>
     </Wrapper>
   );

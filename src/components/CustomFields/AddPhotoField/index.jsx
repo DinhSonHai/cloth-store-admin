@@ -40,33 +40,35 @@ function AddPhotoField({ photoList, setPhotoList }) {
     <div className="add-photo-field">
       <div className="add-photos">
         <p className="label">PHOTOS</p>
-        {[...Array(4)].map((item, index) => (
-          <div key={index} className="photos__item">
-            {loading === index ? (
-              <div className="photos_item">
-                <Spinner width="50px" />
-              </div>) : (
-              photoList[index] ? (
-                <Fragment>
-                  <img src={photoList[index]} alt="Product" />
-                  <div className="close-icon" onClick={(e) => handleRemovePhoto(e, index)}>
-                    <CloseIcon />
-                  </div>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <label htmlFor={`input${index}`}>
-                    <input type="file" id={`input${index}`} name={`input${index}`} onChange={(e) => handleChange(e, index)} />
-                  </label>
-                  <div className="add-item">
-                    <AddIcon />
-                    <p>Add photo</p>
-                  </div>
-                </Fragment>
-              )
-            )}
-          </div>
-        ))}
+        <div className="photos">
+          {[...Array(4)].map((item, index) => (
+            <div key={index} className="photos__item">
+              {loading === index ? (
+                <div className="photos_item">
+                  <Spinner width="50px" />
+                </div>) : (
+                photoList[index] ? (
+                  <Fragment>
+                    <img src={photoList[index]} alt="Product" />
+                    <div className="close-icon" onClick={(e) => handleRemovePhoto(e, index)}>
+                      <CloseIcon />
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <label htmlFor={`input${index}`}>
+                      <input type="file" id={`input${index}`} name={`input${index}`} onChange={(e) => handleChange(e, index)} />
+                    </label>
+                    <div className="add-item">
+                      <AddIcon />
+                      <p>Add photo</p>
+                    </div>
+                  </Fragment>
+                )
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <p className="note">You can add up to 8 photos. The 1st photo will be set as cover (main photo).</p>
     </div>
