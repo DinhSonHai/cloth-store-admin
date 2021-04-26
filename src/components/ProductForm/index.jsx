@@ -87,15 +87,22 @@ function ProductForm({ categoriesData, brandsData, sizesData, colorsData, photoL
         {formik => (
           <Form className="content__form">
             <TextField type="text" label="NAME" id="name" name="name" placeholder="Enter product name..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            {product && (
+            {product ? (
               <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categoriesData.map(category => ({ value: category._id, label: category.categoryName }))} defaultValue={product.categories.map(category => ({ value: category._id, label: category.categoryName }))} />
+            ) : (
+              <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categoriesData.map(category => ({ value: category._id, label: category.categoryName }))} />
             )}
             <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={brandsData.map(brand => ({ value: brand._id, label: brand.brand }))} />
             <TextField type="number" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            {product && (
+            {product ? (
               <Fragment>
                 <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizesData.map(size => ({ value: size._id, label: size.sizeName }))} defaultValue={product.sizes.map(size => ({ value: size._id, label: size.sizeName }))} />
                 <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colorsData.map(color => ({ value: color._id, label: color.colorName }))} defaultValue={product.colors.map(color => ({ value: color._id, label: color.colorName }))} />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizesData.map(size => ({ value: size._id, label: size.sizeName }))} />
+                <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colorsData.map(color => ({ value: color._id, label: color.colorName }))} />
               </Fragment>
             )}
             <TextField type="number" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
