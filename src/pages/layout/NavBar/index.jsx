@@ -15,28 +15,43 @@ function NavBar({ user, title, subTitle, logout }) {
   const history = useHistory();
   const location = useLocation().pathname;
 
-  const getTitle = (route) => {
+  const matchRoute = (route) => {
     if (location.length === 1) {
       return null;
     }
     return location === route;
   }
 
+  const includeRoute = (route) => {
+    if (location.length === 1) {
+      return null;
+    }
+    return location.includes(route);
+  }
+
   return (
     <div className="admin-navbar">
 
       {
-        getTitle("/admin/products") &&
+        matchRoute("/admin/products") &&
         <Fragment>
           <p className="title">Products</p>
         </Fragment>
       }
 
       {
-        getTitle("/admin/products/add") &&
+        matchRoute("/admin/products/add") &&
         <Fragment>
           <p className="title">Add product</p>
           <p className="sub-title">Products / Add product</p>
+        </Fragment>
+      }
+
+      {
+        includeRoute("/admin/products/edit") &&
+        <Fragment>
+          <p className="title">Edit product</p>
+          <p className="sub-title">Products / Edit product</p>
         </Fragment>
       }
 

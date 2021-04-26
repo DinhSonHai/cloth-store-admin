@@ -1,5 +1,5 @@
 import {
-  GET_ALL_PRODUCTS
+  GET_ALL_PRODUCTS, GET_PRODUCT_BY_ID
 } from '../types';
 
 const initialState = {
@@ -16,6 +16,11 @@ export default function products(state = initialState, action) {
         ...state,
         products: payload,
         total: payload.length
+      }
+    case GET_PRODUCT_BY_ID:
+      return {
+        ...state,
+        product: payload
       }
     // case ADD_PRODUCT_SUCCESS:
     default:

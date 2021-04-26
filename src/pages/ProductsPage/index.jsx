@@ -65,6 +65,9 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
     return history.push("/admin/products/add");
   }
 
+  const handleEditProduct = (productId) => {
+    return history.push(`/admin/products/edit/${productId}`);
+  }
   const handleRemoveProduct = (productId) => {
     confirmAlert({
       title: 'Confirm to remove product',
@@ -148,7 +151,7 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
                           <p>Actions</p>
                           <DropDown />
                           <div className="dropdown">
-                            <div>
+                            <div onClick={() => handleEditProduct(product._id)}>
                               <EditIcon />
                               <p>Edit</p>
                             </div>

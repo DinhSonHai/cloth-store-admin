@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 
 import Spinner from '../../Spinner';
@@ -9,7 +9,7 @@ AddPhotoField.propTypes = {
 
 };
 
-function AddPhotoField({ photoList, setPhotoList }) {
+function AddPhotoField({ photoList, setPhotoList, photos }) {
   const [loading, setLoading] = useState(null);
 
   const handleChange = async (e, index) => {
@@ -35,6 +35,12 @@ function AddPhotoField({ photoList, setPhotoList }) {
     list[index] = "";
     setPhotoList(list);
   }
+
+  useEffect(() => {
+    if (photos) {
+      setPhotoList(photos);
+    }
+  }, [photos]);
 
   return (
     <div className="add-photo-field">

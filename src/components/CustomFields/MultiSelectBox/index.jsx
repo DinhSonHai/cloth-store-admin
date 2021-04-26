@@ -8,7 +8,7 @@ MultiSelectBox.propTypes = {
 
 };
 
-function MultiSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, ...props }) {
+function MultiSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, defaultValue, ...props }) {
   // const options = [
   //   { value: 'cancel', label: 'Cancle order' },
   //   { value: 'hello', label: 'Hello' }
@@ -59,6 +59,7 @@ function MultiSelectBox({ id, name, label, width, height, labelColor, background
             {...field}
             {...props}
             isMulti
+            defaultInputValue={defaultValue}
             // value={{ value: 'default', label: 'Select categories...' }}
             isSearchable={false}
             isClearable={false}

@@ -17,6 +17,7 @@ export default function routes() {
         <AuthRoute exact path="/admin/login" component={pages.LoginPage} />
         <PrivateRoute exact path="/admin/products" component={pages.ProductsPage} />
         <PrivateRoute exact path="/admin/products/add" component={pages.AddProductPage} />
+        <PrivateRoute exact path="/admin/products/edit/:productId" component={pages.AddProductPage} isEdit={true} />
       </Switch>
     </div>
   )
