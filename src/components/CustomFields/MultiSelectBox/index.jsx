@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { ErrorMessage, useField, Field } from 'formik';
 
@@ -13,6 +13,7 @@ function MultiSelectBox({ id, name, label, width, height, labelColor, background
   //   { value: 'cancel', label: 'Cancle order' },
   //   { value: 'hello', label: 'Hello' }
   // ];
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const customStyles = {
     control: (styles) => ({
@@ -46,6 +47,11 @@ function MultiSelectBox({ id, name, label, width, height, labelColor, background
     placeholder: (styles) => ({ color: "rgba(77, 77, 77, 0.5)" })
   }
 
+  const handleChange = (option, setFieldValue) => {
+    setSelectedOption(option);
+    setFieldValue(name, option);
+  }
+
   return (
     <Field id={id} name={name}>
       {({ field, form: { setFieldValue } }) => (
@@ -54,18 +60,18 @@ function MultiSelectBox({ id, name, label, width, height, labelColor, background
             <Fragment>
               <label style={{ color: labelColor }} className="multi-select-box__label" htmlFor={name}>{label}</label>
             </Fragment>)}
+          {/* {  console.log(defaultValue)} */}
           <Select
             className="multi-select-box__select"
             {...field}
             {...props}
             isMulti
-            defaultInputValue={defaultValue}
-            // value={{ value: 'default', label: 'Select categories...' }}
+            value={selectedOption || defaultValue}
             isSearchable={false}
             isClearable={false}
             styles={customStyles}
             options={options}
-            onChange={option => setFieldValue(name, option)}
+            onChange={option => handleChange(option, setFieldValue)}
           />
           <ErrorMessage name={name} component="div" className="multi-select-box__error" />
         </div>

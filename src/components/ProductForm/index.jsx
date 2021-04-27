@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
@@ -12,15 +12,23 @@ import './styles.scss';
 import TextAreaField from '../CustomFields/TextAreaField';
 import SingleSelectBox from '../CustomFields/SingleSelectBox';
 import MultiSelectBox from '../CustomFields/MultiSelectBox';
+import AddPhotoField from '../CustomFields/AddPhotoField';
+import { getProductById } from '../../redux/actions/products';
+import { getAllCategories } from '../../redux/actions/categories';
+import { getAllSizes } from '../../redux/actions/sizes';
+import { getAllColors } from '../../redux/actions/colors';
+import { getAllBrands } from '../../redux/actions/brands';
 
 ProductForm.propTypes = {
 
 };
 
-function ProductForm({ categoriesData, brandsData, sizesData, colorsData, photoList, product, isEdit, productId, editProduct }) {
+function ProductForm({ product, categories, brands, sizes, colors, getProductById, getAllCategories, getAllBrands, getAllSizes, getAllColors, productId, editProduct }) {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+  const [photoList, setPhotoList] = useState([]);
+
   const validate = Yup.object({
     name: Yup.string()
       .required('Please enter a valid name!'),
@@ -44,81 +52,149 @@ function ProductForm({ categoriesData, brandsData, sizesData, colorsData, photoL
     return history.push("/admin/products");
   }
 
+  useEffect(() => {
+    if (productId) {
+      getProductById(productId);
+    }
+    getAllCategories();
+    getAllBrands();
+    getAllSizes();
+    getAllColors();
+  }, [getAllCategories, getAllBrands, getAllSizes, getAllColors, getProductById, productId]);
   return (
     <div className="product__form">
+      {productId && product ? (
+        <AddPhotoField photoList={photoList} setPhotoList={setPhotoList} photos={product.photos} />
+      ) : (
+        <AddPhotoField photoList={photoList} setPhotoList={setPhotoList} />
+      )}
       {/* {auth?.error?.type === 'login' && (<p className="content__error">{auth.error.message}</p>)} */}
-      <Formik
-        initialValues={{
-          name: product?.name || '',
-          categories: product?.categories.map(category => ({ value: category._id, label: category.categoryName })) || [],
-          brand: product?.brandId._id || '',
-          price: product?.price || '',
-          sizes: product?.sizes.map(size => ({ value: size._id, label: size.sizeName })) || [],
-          colors: product?.colors.map(color => ({ value: color._id, label: color.colorName })) || [],
-          quantity: product?.quantity || '',
-          description: product?.description || ''
-        }}
-        validationSchema={validate}
-        onSubmit={values => {
-          const categories = values.categories.map(item => item.value);
-          const sizes = values.sizes.map(item => item.value);
-          const colors = values.colors.map(item => item.value);
-          async function sendData() {
-            setLoading(true);
-            if (isEdit) {
+      {productId && product ? (
+        <Formik
+          enableReinitialize
+          initialValues={{
+            name: product.name,
+            categories: product.categories.map(category => ({ value: category._id, label: category.categoryName })),
+            brand: product.brandId._id,
+            price: product.price,
+            sizes: product.sizes.map(size => ({ value: size._id, label: size.sizeName })),
+            colors: product.colors.map(color => ({ value: color._id, label: color.colorName })),
+            quantity: product.quantity,
+            description: product.description
+          }}
+          validationSchema={validate}
+          onSubmit={(values) => {
+            const categories = values.categories.map(item => item.value);
+            const sizes = values.sizes.map(item => item.value);
+            const colors = values.colors.map(item => item.value);
+            async function sendData() {
+              setLoading(true);
               const result = await editProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList }, productId);
               setLoading(false);
+              console.log({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList });
               if (result) {
                 return history.push("/admin/products");
               }
             }
-            else {
+            sendData();
+          }}
+        // validateOnMount
+        >
+          {formik => (
+            <Form className="content__form">
+              <TextField type="text" label="NAME" id="name" name="name" placeholder="Enter product name..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+              {categories.length > 0 && (
+                <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categories.map(category => ({ value: category._id, label: category.categoryName }))} defaultValue={product.categories.map(category => ({ value: category._id, label: category.categoryName }))} />
+              )}
+              {brands.length > 0 && <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={brands.map(brand => ({ value: brand._id, label: brand.brand }))} defaultValue={{ value: product.brandId._id, label: product.brandId.brand }} />}
+              <TextField type="number" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+              {sizes.length > 0 && (
+                <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizes.map(size => ({ value: size._id, label: size.sizeName }))} defaultValue={product.sizes.map(size => ({ value: size._id, label: size.sizeName }))} />
+              )}
+              {colors.length > 0 && (
+                <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colors.map(color => ({ value: color._id, label: color.colorName }))} defaultValue={product.colors.map(color => ({ value: color._id, label: color.colorName }))} />
+              )}
+              <TextField type="number" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+              <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
+
+              <div className="button">
+                <button onClick={handleCancel} className="button__cancel">Cancel</button>
+                <button type="submit" className="button__complete" disabled={!formik.isValid} >
+                  {loading && <span className="spinner"><Spinner width="49px" /></span>}
+                Complete
+              </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <Formik
+          initialValues={{
+            name: '',
+            categories: [],
+            brand: '',
+            price: '',
+            sizes: [],
+            colors: [],
+            quantity: '',
+            description: ''
+          }}
+          validationSchema={validate}
+          onSubmit={(values) => {
+            const categories = values.categories.map(item => item.value);
+            const sizes = values.sizes.map(item => item.value);
+            const colors = values.colors.map(item => item.value);
+            async function sendData() {
+              setLoading(true);
               const result = await addProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList });
               setLoading(false);
               if (result) {
                 return history.push("/admin/products");
               }
             }
-          }
-          sendData();
-        }}
-        validateOnMount
-      >
-        {formik => (
-          <Form className="content__form">
-            <TextField type="text" label="NAME" id="name" name="name" placeholder="Enter product name..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            {product ? (
-              <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categoriesData.map(category => ({ value: category._id, label: category.categoryName }))} defaultValue={product.categories.map(category => ({ value: category._id, label: category.categoryName }))} />
-            ) : (
-              <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categoriesData.map(category => ({ value: category._id, label: category.categoryName }))} />
-            )}
-            <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={brandsData.map(brand => ({ value: brand._id, label: brand.brand }))} />
-            <TextField type="number" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            {product ? (
-              <Fragment>
-                <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizesData.map(size => ({ value: size._id, label: size.sizeName }))} defaultValue={product.sizes.map(size => ({ value: size._id, label: size.sizeName }))} />
-                <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colorsData.map(color => ({ value: color._id, label: color.colorName }))} defaultValue={product.colors.map(color => ({ value: color._id, label: color.colorName }))} />
-              </Fragment>
-            ) : (
-              <Fragment>
-                <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizesData.map(size => ({ value: size._id, label: size.sizeName }))} />
-                <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colorsData.map(color => ({ value: color._id, label: color.colorName }))} />
-              </Fragment>
-            )}
-            <TextField type="number" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
-            <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
-            <div className="button">
-              <button onClick={handleCancel} className="button__cancel">Cancel</button>
-              <button type="submit" className="button__complete" disabled={!formik.isValid} >
-                {loading && <span className="spinner"><Spinner width="49px" /></span>}
+            sendData();
+          }}
+          validateOnMount
+        >
+          {formik => (
+            <Form className="content__form">
+              <TextField type="text" label="NAME" id="name" name="name" placeholder="Enter product name..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+              {categories.length > 0 && (
+                <MultiSelectBox label="CATEGORIES" id="categories" name="categories" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={categories.map(category => ({ value: category._id, label: category.categoryName }))} />
+              )}
+              {brands.length > 0 && <SingleSelectBox label="BRAND" id="brand" name="brand" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={brands.map(brand => ({ value: brand._id, label: brand.brand }))} />}
+              <TextField type="number" label="PRICE($)" id="price" name="price" placeholder="Enter product price..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+              {sizes.length > 0 && (
+                <MultiSelectBox label="SIZE" id="sizes" name="sizes" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={sizes.map(size => ({ value: size._id, label: size.sizeName }))} />
+              )}
+              {colors.length > 0 && (
+                <MultiSelectBox label="COLOR" id="colors" name="colors" width={"803px"} height={"48px"} backgroundColor={"var(--white)"} options={colors.map(color => ({ value: color._id, label: color.colorName }))} />
+              )}
+              <TextField type="number" label="QUANTITY" id="quantity" name="quantity" placeholder="Enter product quantity..." width={"803px"} height={"48px"} backgroundColor={"var(--white)"} />
+              <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
+
+              <div className="button">
+                <button onClick={handleCancel} className="button__cancel">Cancel</button>
+                <button type="submit" className="button__complete" disabled={!formik.isValid} >
+                  {loading && <span className="spinner"><Spinner width="49px" /></span>}
                 Complete
               </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      )}
     </div>
   );
 }
 
-export default connect(null, { editProduct })(ProductForm);
+
+const mapStateToProps = (state) => ({
+  product: state.products.product,
+  categories: state.categories.categories,
+  brands: state.brands.brands,
+  sizes: state.sizes.sizes,
+  colors: state.colors.colors
+});
+
+export default connect(mapStateToProps, { getAllCategories, getAllBrands, getAllSizes, getAllColors, getProductById, editProduct })(ProductForm);

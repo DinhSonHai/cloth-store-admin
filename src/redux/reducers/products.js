@@ -5,6 +5,7 @@ import {
 const initialState = {
   products: [],
   total: 0,
+  loading: true,
   product: null
 };
 
@@ -15,11 +16,13 @@ export default function products(state = initialState, action) {
       return {
         ...state,
         products: payload,
+        loading: false,
         total: payload.length
       }
     case GET_PRODUCT_BY_ID:
       return {
         ...state,
+        loading: false,
         product: payload
       }
     // case ADD_PRODUCT_SUCCESS:

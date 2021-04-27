@@ -8,7 +8,7 @@ SingleSelectBox.propTypes = {
 
 };
 
-function SingleSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, ...props }) {
+function SingleSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, defaultValue, ...props }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const customStyles = {
@@ -48,6 +48,12 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
     setFieldValue(name, option.value);
   }
 
+  // useEffect(() => {
+  //   if (!(defaultValue?.value !== selectedOption?.value)) {
+  //     setSelectedOption(defaultValue);
+  //   }
+  // }, [defaultValue, selectedOption]);
+
   return (
     <Field id={id} name={name}>
       {({ field, form: { setFieldValue } }) => (
@@ -59,7 +65,8 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
           <Select
             {...field}
             {...props}
-            value={selectedOption}
+            // defaultValue={defaultValue}
+            value={selectedOption || defaultValue}
             isSearchable={false}
             isClearable={false}
             options={options}

@@ -57,6 +57,7 @@ export const addProduct = async (formData) => {
 }
 
 export const editProduct = (formData, productId) => async (dispatch) => {
+  console.log('123')
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ export const editProduct = (formData, productId) => async (dispatch) => {
   const body = JSON.stringify(formData);
   try {
     const res = await axios.put(`/api/products/${productId}`, body, config);
-    dispatch(getProductById(productId));
+    // dispatch(getProductById(productId));
     toast.success(res.data.message);
     return true;
   } catch (err) {
