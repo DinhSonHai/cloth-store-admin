@@ -5,7 +5,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 // import PropTypes from 'prop-types';
 
-import { getAllOrdersForAdmin, completeOrder, cancelOrder } from '../../redux/actions/orders';
+import { getAllOrdersForAdmin, getSearchAllOrdersForAdmin, completeOrder, cancelOrder } from '../../redux/actions/orders';
 import Wrapper from '../../components/Wrapper';
 import Spinner from '../../components/Spinner';
 import PaginationComponent from '../../components/PaginationComponent';
@@ -22,7 +22,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, completeOrder, cancelOrder }) {
+function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearchAllOrdersForAdmin, completeOrder, cancelOrder }) {
   const query = useQuery();
   const history = useHistory();
   const wrapperRef = useRef();
@@ -44,33 +44,37 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, completeO
 
 
   const handleKeyPress = (e) => {
-    // let limitNumber = 6;
-    // if (limit) {
-    //   limitNumber = parseInt(limit);
-    // }
-    // let type = 'date';
-    // if (sort) {
-    //   type = sort;
-    // }
-    // if (e.key === 'Enter') {
-    //   if (keyWord) {
-    //     history.push(`/admin/orders?q=${keyWord}&sort=${type}&limit=${limitNumber}`);
-    //   }
-    // }
+    let limitNumber = 6;
+    if (limit) {
+      limitNumber = parseInt(limit);
+    }
+
+    let type = 'date';
+    if (sort) {
+      type = sort;
+    }
+
+    setCurrentPage(1);
+
+    if (e.key === 'Enter') {
+      history.push(`/admin/orders?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
+    }
   }
 
   const handleSearchClick = (e) => {
-    // let limitNumber = 6;
-    // if (limit) {
-    //   limitNumber = parseInt(limit);
-    // }
-    // let type = 'date';
-    // if (sort) {
-    //   type = sort;
-    // }
-    // if (keyWord) {
-    //   history.push(`/admin/orders?q=${keyWord}&sort=${type}&limit=${limitNumber}`);
-    // }
+    let limitNumber = 6;
+    if (limit) {
+      limitNumber = parseInt(limit);
+    }
+
+    let type = 'date';
+    if (sort) {
+      type = sort;
+    }
+
+    setCurrentPage(1);
+
+    history.push(`/admin/orders?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
   }
 
   const handleOpenLimit = () => {
@@ -91,15 +95,15 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, completeO
     setOpenLimit(false);
     if (q) {
       if (sort) {
-        return history.push(`/admin/products?q=${q}&sort=${sort}&page=${1}&limit=${limitNumber}`);
+        return history.push(`/admin/orders?q=${q}&sort=${sort}&page=${1}&limit=${limitNumber}`);
       }
-      return history.push(`/admin/products?q=${q}&page=${1}&limit=${limitNumber}`);
+      return history.push(`/admin/orders?q=${q}&page=${1}&limit=${limitNumber}`);
     }
     else {
       if (sort) {
-        return history.push(`/admin/products?sort=${sort}&page=${1}&limit=${limitNumber}`);
+        return history.push(`/admin/orders?sort=${sort}&page=${1}&limit=${limitNumber}`);
       }
-      return history.push(`/admin/products?page=${1}&limit=${limitNumber}`);
+      return history.push(`/admin/orders?page=${1}&limit=${limitNumber}`);
     }
   }
 
@@ -181,12 +185,12 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, completeO
     async function handleGetData() {
       setLoading(true);
       if (q) {
-        // if (sort) {
-        //   await getSearchAllOrdersForAdmin(q, sort, page, limit);
-        // }
-        // else {
-        //   await getSearchAllOrdersForAdmin(q, null, page, limit);
-        // }
+        if (sort) {
+          await getSearchAllOrdersForAdmin(q, sort, page, limit);
+        }
+        else {
+          await getSearchAllOrdersForAdmin(q, null, page, limit);
+        }
       }
       else {
         if (sort) {
@@ -232,7 +236,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, completeO
                 <div className="search-box__icon" onClick={handleSearchClick}>
                   <SearchIconv2 />
                 </div>
-                <input className="search__input" type="text" placeholder="Search order by user email" value={keyWord} onChange={handleSearchInputChange} onKeyPress={handleKeyPress} />
+                <input className="search__input" type="text" placeholder="Search order by product name" value={keyWord} onChange={handleSearchInputChange} onKeyPress={handleKeyPress} />
               </div>
             </div>
           </div>
@@ -320,8 +324,8 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, completeO
                   </div>
                   {isOpenLimit && (
                     <div className="select__option">
-                      <p onClick={() => handleSelectLimit('6')}>6</p>
-                      <p onClick={() => handleSelectLimit('12')}>12</p>
+                      <p onClick={() => handleSelectLimit('10')}>10</p>
+                      <p onClick={() => handleSelectLimit('20')}>20</p>
                     </div>
                   )}
                 </div>
@@ -339,4 +343,4 @@ const mapStateToProps = (state) => ({
   orders: state.orders
 })
 
-export default connect(mapStateToProps, { getAllOrdersForAdmin, completeOrder, cancelOrder })(OrdersPage);
+export default connect(mapStateToProps, { getAllOrdersForAdmin, getSearchAllOrdersForAdmin, completeOrder, cancelOrder })(OrdersPage);

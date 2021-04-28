@@ -4,7 +4,7 @@ import { GET_ALL_ORDERS } from '../types';
 
 // Action creator
 export const getAllOrdersForAdmin = (sort, page, limit) => async (dispatch) => {
-  let limitNumber = 6;
+  let limitNumber = 10;
   if (limit) {
     limitNumber = parseInt(limit);
   }
@@ -38,7 +38,7 @@ export const getAllOrdersForAdmin = (sort, page, limit) => async (dispatch) => {
 
 // Action creator
 export const getSearchAllOrdersForAdmin = (q, sort, page, limit) => async (dispatch) => {
-  let limitNumber = 6;
+  let limitNumber = 10;
   if (limit) {
     limitNumber = parseInt(limit);
   }
