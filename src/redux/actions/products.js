@@ -3,20 +3,24 @@ import { toast } from 'react-toastify';
 import { GET_ALL_PRODUCTS, ADD_PRODUCT_SUCCESS, GET_PRODUCT_BY_ID } from '../types';
 
 // Action creator
-export const getAllProductsForAdmin = (sort, page) => async (dispatch) => {
+export const getAllProductsForAdmin = (sort, page, limit) => async (dispatch) => {
+  let limitNumber = 6;
+  if (limit) {
+    limitNumber = parseInt(limit);
+  }
   try {
-    let queryParams = '';
+    let queryParams = `?limit=${limitNumber}`;
     if (sort) {
       if (page) {
-        queryParams = `?sort=${sort}&page=${page}`;
+        queryParams = `?sort=${sort}&page=${page}&limit=${limitNumber}`;
       }
       else {
-        queryParams = `?sort=${sort}`;
+        queryParams = `?sort=${sort}&limit=${limitNumber}`;
       }
     }
     else {
       if (page) {
-        queryParams = `?page=${page}`
+        queryParams = `?page=${page}&limit=${limitNumber}`
       }
     }
     const res = await axios.get(`/api/products/admin/${queryParams}`);

@@ -50,10 +50,10 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
       }
       else {
         if (sort) {
-          await getAllProductsForAdmin(sort, page);
+          await getAllProductsForAdmin(sort, page, limit);
         }
         else {
-          await getAllProductsForAdmin(null, page);
+          await getAllProductsForAdmin(null, page, limit);
         }
       }
       setLoading(false);
@@ -63,21 +63,36 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProductsForAdmin, q, sort, page]);
+  }, [getAllProductsForAdmin, q, sort, page, limit]);
 
   const handleOpenLimit = () => {
     setOpenLimit(!isOpenLimit);
   }
 
   const handleSelectLimit = (type) => {
+    let limitNumber = 6;
     if (type === '6') {
       setLimit('6');
+      limitNumber = parseInt(type);
     }
     else if (type === '12') {
       setLimit('12');
+      limitNumber = parseInt(type);
     }
+    setCurrentPage(1);
     setOpenLimit(false);
-    // handleSort(type);
+    if (q) {
+      if (sort) {
+        return history.push(`/admin/products?q=${q}&sort=${sort}&page=${1}&limit=${limitNumber}`);
+      }
+      return history.push(`/admin/products?q=${q}&page=${1}&limit=${limitNumber}`);
+    }
+    else {
+      if (sort) {
+        return history.push(`/admin/products?sort=${sort}&page=${1}&limit=${limitNumber}`);
+      }
+      return history.push(`/admin/products?page=${1}&limit=${limitNumber}`);
+    }
   }
 
   const closeLimit = (e) => {
