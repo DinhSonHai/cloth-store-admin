@@ -87,11 +87,13 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
             const categories = values.categories.map(item => item.value);
             const sizes = values.sizes.map(item => item.value);
             const colors = values.colors.map(item => item.value);
+            const photos = photoList.filter(photo => photo);
+
             async function sendData() {
               setLoading(true);
-              const result = await editProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList }, productId);
+              const result = await editProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos }, productId);
               setLoading(false);
-              console.log({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList });
+              // console.log({ ...values, categories, sizes, colors, brandId: values.brand, photos });
               if (result) {
                 return history.push("/admin/products");
               }
@@ -144,9 +146,10 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
             const categories = values.categories.map(item => item.value);
             const sizes = values.sizes.map(item => item.value);
             const colors = values.colors.map(item => item.value);
+            const photos = photoList.filter(photo => photo);
             async function sendData() {
               setLoading(true);
-              const result = await addProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos: photoList });
+              const result = await addProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos });
               setLoading(false);
               if (result) {
                 return history.push("/admin/products");

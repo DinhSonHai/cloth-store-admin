@@ -15,9 +15,9 @@ export default function products(state = initialState, action) {
     case GET_ALL_PRODUCTS:
       return {
         ...state,
-        products: payload,
+        products: payload.products,
         loading: false,
-        total: payload.length
+        total: payload.total
       }
     case GET_PRODUCT_BY_ID:
       return {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 // import PropTypes from 'prop-types';
 
-import { getAllProductsForAdmin, removeProduct } from '../../redux/actions/products';
+import { getAllProductsForAdmin, getSearchAllProductsForAdmin, removeProduct } from '../../redux/actions/products';
 import Spinner from '../../components/Spinner';
 import PaginationComponent from '../../components/PaginationComponent';
 import SortBox from '../../components/CustomFields/SortBox';
@@ -16,7 +16,14 @@ ProductsPage.propTypes = {
 
 };
 
-function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removeProduct }) {
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
+function ProductsPage({ products: { products, total }, setSubTitle, getAllProductsForAdmin, getSearchAllProductsForAdmin, removeProduct }) {
+  const query = useQuery();
   const history = useHistory();
   const wrapperRef = useRef();
 
@@ -26,10 +33,29 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
   const [isOpenLimit, setOpenLimit] = useState(false);
   const [limit, setLimit] = useState('6');
 
+  const q = query.get("q");
+  const sort = query.get("sort");
+  const page = parseInt(query.get("page"));
+
   useEffect(() => {
     async function handleGetData() {
       setLoading(true);
-      await getAllProductsForAdmin();
+      if (q) {
+        if (sort) {
+          await getSearchAllProductsForAdmin(q, sort, page);
+        }
+        else {
+          await getSearchAllProductsForAdmin(q, null, page);
+        }
+      }
+      else {
+        if (sort) {
+          await getAllProductsForAdmin(sort, page);
+        }
+        else {
+          await getAllProductsForAdmin(null, page);
+        }
+      }
       setLoading(false);
     }
     handleGetData();
@@ -37,7 +63,7 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProductsForAdmin]);
+  }, [getAllProductsForAdmin, q, sort, page]);
 
   const handleOpenLimit = () => {
     setOpenLimit(!isOpenLimit);
@@ -68,6 +94,7 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
   const handleEditProduct = (productId) => {
     return history.push(`/admin/products/edit/${productId}`);
   }
+
   const handleRemoveProduct = (productId) => {
     confirmAlert({
       title: 'Confirm to remove product',
@@ -83,6 +110,25 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
         }
       ]
     });
+  }
+
+  const handlePagination = (pageNumber) => {
+    let limitNumber = 6;
+    if (limit) {
+      limitNumber = parseInt(limit);
+    }
+    if (q) {
+      if (sort) {
+        return history.push(`/admin/products?q=${q}&sort=${sort}&page=${pageNumber}&limit=${limitNumber}`);
+      }
+      return history.push(`/admin/products?q=${q}&page=${pageNumber}&limit=${limitNumber}`);
+    }
+    else {
+      if (sort) {
+        return history.push(`/admin/products?sort=${sort}&page=${pageNumber}&limit=${limitNumber}`);
+      }
+      return history.push(`/admin/products?page=${pageNumber}&limit=${limitNumber}`);
+    }
   }
 
   return (
@@ -168,7 +214,15 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
               </tbody>
             </table>
             <div className="table__option">
-              <p>Show 1 to 10 of 123 entries</p>
+              {page ? (
+                page * limit > total ? (
+                  <p>{`Show ${(page - 1) * limit + 1} to ${total} of ${total} entries`}</p>
+                ) : (
+                  <p>{`Show ${(page - 1) * limit + 1} to ${page * limit} of ${total} entries`}</p>
+                )
+              ) : (
+                <p>{`Show 1 to 6 of ${total} entries`}</p>
+              )}
               <div className="pagination">
                 <div className="limit" ref={wrapperRef}>
                   <div className="select-box" onClick={handleOpenLimit}>
@@ -184,7 +238,7 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
                     </div>
                   )}
                 </div>
-                <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} total={products.length || 0} />
+                <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} handlePagination={handlePagination} total={total} limit={parseInt(limit)} />
               </div>
             </div>
           </div>
@@ -195,7 +249,7 @@ function ProductsPage({ products, setSubTitle, getAllProductsForAdmin, removePro
 }
 
 const mapStateToProps = (state) => ({
-  products: state.products.products
+  products: state.products
 })
 
-export default connect(mapStateToProps, { getAllProductsForAdmin, removeProduct })(ProductsPage);
+export default connect(mapStateToProps, { getAllProductsForAdmin, getSearchAllProductsForAdmin, removeProduct })(ProductsPage);

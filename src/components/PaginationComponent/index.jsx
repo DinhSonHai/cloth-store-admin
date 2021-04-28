@@ -9,17 +9,18 @@ PaginationComponent.propTypes = {
 
 };
 
-function PaginationComponent({ currentPage, setCurrentPage, total }) {
+function PaginationComponent({ currentPage, setCurrentPage, handlePagination, total, limit }) {
   const handlePageChange = (page, e) => {
     setCurrentPage(page);
+    handlePagination(page);
   };
 
   return (
     <div>
       <Pagination
-        total={50}
-        // limit={limit}
-        pageCount={5}
+        total={total}
+        limit={limit}
+        // pageCount={5}
         currentPage={currentPage}
       >
         {({

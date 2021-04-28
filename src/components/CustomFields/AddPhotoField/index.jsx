@@ -11,6 +11,7 @@ AddPhotoField.propTypes = {
 
 function AddPhotoField({ photoList, setPhotoList, photos }) {
   const [loading, setLoading] = useState(null);
+  const [isComplete, setComplete] = useState(true);
 
   const handleChange = async (e, index) => {
     const files = e.target.files;
@@ -18,6 +19,7 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
     data.append('file', files[0]);
     data.append('upload_preset', 'productphotos');
     setLoading(index);
+    setComplete(false);
     const res = await fetch("https://api.cloudinary.com/v1_1/sonhai/image/upload",
       {
         method: 'POST',
@@ -27,6 +29,7 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
     const list = [...photoList];
     list[index] = file.secure_url;
     setPhotoList(list);
+    setComplete(true);
     setLoading(null);
   }
 
@@ -48,7 +51,7 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
         <p className="label">PHOTOS</p>
         <div className="photos">
           {[...Array(4)].map((item, index) => (
-            <div key={index} className="photos__item">
+            <div key={index} className={isComplete ? ("photos__item") : ("photos__item photos__item--disabled")}>
               {loading === index ? (
                 <div className="photos_item">
                   <Spinner width="50px" />
@@ -63,7 +66,7 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
                 ) : (
                   <Fragment>
                     <label htmlFor={`input${index}`}>
-                      <input type="file" id={`input${index}`} name={`input${index}`} onChange={(e) => handleChange(e, index)} />
+                      <input type="file" id={`input${index}`} name={`input${index}`} onChange={(e) => handleChange(e, index)} disabled={!isComplete} />
                     </label>
                     <div className="add-item">
                       <AddIcon />
@@ -77,7 +80,7 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
         </div>
       </div>
       <p className="note">You can add up to 8 photos. The 1st photo will be set as cover (main photo).</p>
-    </div>
+    </div >
   );
 }
 

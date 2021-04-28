@@ -3,7 +3,37 @@ import { toast } from 'react-toastify';
 import { GET_ALL_PRODUCTS, ADD_PRODUCT_SUCCESS, GET_PRODUCT_BY_ID } from '../types';
 
 // Action creator
-export const getAllProductsForAdmin = () => async (dispatch) => {
+export const getAllProductsForAdmin = (sort, page) => async (dispatch) => {
+  try {
+    let queryParams = '';
+    if (sort) {
+      if (page) {
+        queryParams = `?sort=${sort}&page=${page}`;
+      }
+      else {
+        queryParams = `?sort=${sort}`;
+      }
+    }
+    else {
+      if (page) {
+        queryParams = `?page=${page}`
+      }
+    }
+    const res = await axios.get(`/api/products/admin/${queryParams}`);
+    dispatch({
+      type: GET_ALL_PRODUCTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    const error = err.response.data;
+    if (error) {
+      toast.error(error.message);
+    }
+  }
+}
+
+// Action creator
+export const getSearchAllProductsForAdmin = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/products/admin');
     dispatch({
