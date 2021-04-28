@@ -146,6 +146,22 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
     }
   }
 
+  const handleSort = (type) => {
+    let limitNumber = 6;
+    if (limit) {
+      limitNumber = parseInt(limit);
+    }
+
+    setCurrentPage(1);
+
+    if (q) {
+      return history.push(`/admin/products?q=${q}&sort=${type}&page=${1}&limit=${limitNumber}`);
+    }
+    else {
+      return history.push(`/admin/products?sort=${type}&page=${1}&limit=${limitNumber}`);
+    }
+  }
+
   return (
     <Wrapper>
       <div className="products">
@@ -154,7 +170,7 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
             <div className="sort">
 
               <p className="sort__label">SORT BY</p>
-              <SortBox sortState={sortState} setSortState={setSortState} />
+              <SortBox handleSort={handleSort} sortState={sortState} setSortState={setSortState} />
             </div>
             <div className="action">
               <div className="search-box">

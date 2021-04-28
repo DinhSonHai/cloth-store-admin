@@ -24,8 +24,8 @@ function SelectBox({ handleSort, sortState, setSortState }) {
     else if (type === 'profit') {
       setSortState('Profit');
     }
-    setOpen(false)
-    // handleSort(type);
+    setOpen(false);
+    handleSort(type);
   }
 
   const close = (e) => {
