@@ -27,25 +27,26 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
   const history = useHistory();
   const wrapperRef = useRef();
 
+  const q = query.get("q");
+  const sort = query.get("sort");
+  const page = parseInt(query.get("page"));
+
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortState, setSortState] = useState('Date Added');
   const [isOpenLimit, setOpenLimit] = useState(false);
   const [limit, setLimit] = useState('6');
-
-  const q = query.get("q");
-  const sort = query.get("sort");
-  const page = parseInt(query.get("page"));
+  const [keyWord, setKeyWord] = useState(q || '');
 
   useEffect(() => {
     async function handleGetData() {
       setLoading(true);
       if (q) {
         if (sort) {
-          await getSearchAllProductsForAdmin(q, sort, page);
+          await getSearchAllProductsForAdmin(q, sort, page, limit);
         }
         else {
-          await getSearchAllProductsForAdmin(q, null, page);
+          await getSearchAllProductsForAdmin(q, null, page, limit);
         }
       }
       else {
@@ -63,7 +64,50 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProductsForAdmin, q, sort, page, limit]);
+  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit]);
+
+  const handleSearchInputChange = (e) => {
+    setKeyWord(e.target.value);
+  }
+
+
+  const handleKeyPress = (e) => {
+    let limitNumber = 6;
+    if (limit) {
+      limitNumber = parseInt(limit);
+    }
+
+    let type = 'date';
+    if (sort) {
+      type = sort;
+    }
+
+    setCurrentPage(1);
+
+    if (e.key === 'Enter') {
+      if (keyWord) {
+        history.push(`/admin/products?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
+      }
+    }
+  }
+
+  const handleSearchClick = (e) => {
+    let limitNumber = 6;
+    if (limit) {
+      limitNumber = parseInt(limit);
+    }
+
+    let type = 'date';
+    if (sort) {
+      type = sort;
+    }
+
+    setCurrentPage(1);
+
+    if (keyWord) {
+      history.push(`/admin/products?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
+    }
+  }
 
   const handleOpenLimit = () => {
     setOpenLimit(!isOpenLimit);
@@ -174,8 +218,10 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
             </div>
             <div className="action">
               <div className="search-box">
-                <SearchIconv2 />
-                <input className="search__input" type="text" placeholder="Search product" />
+                <div className="search-box__icon" onClick={handleSearchClick}>
+                  <SearchIconv2 />
+                </div>
+                <input className="search__input" type="text" placeholder="Search product" value={keyWord} onChange={handleSearchInputChange} onKeyPress={handleKeyPress} />
               </div>
               <div className="add" onClick={handleAddProduct}>
                 <span className="add__icon"><PlusWhite /></span>
@@ -252,7 +298,11 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
                   <p>{`Show ${(page - 1) * limit + 1} to ${page * limit} of ${total} entries`}</p>
                 )
               ) : (
-                <p>{`Show 1 to 6 of ${total} entries`}</p>
+                limit > total ? (
+                  <p>{`Show 1 to ${total} of ${total} entries`}</p>
+                ) : (
+                  <p>{`Show 1 to 6 of ${total} entries`}</p>
+                )
               )}
               <div className="pagination">
                 <div className="limit" ref={wrapperRef}>

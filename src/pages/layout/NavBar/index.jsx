@@ -40,6 +40,13 @@ function NavBar({ user, title, subTitle, logout }) {
       }
 
       {
+        matchRoute("/admin/orders") &&
+        <Fragment>
+          <p className="title">Orders</p>
+        </Fragment>
+      }
+
+      {
         matchRoute("/admin/products/add") &&
         <Fragment>
           <p className="title">Add product</p>

@@ -37,9 +37,27 @@ export const getAllProductsForAdmin = (sort, page, limit) => async (dispatch) =>
 }
 
 // Action creator
-export const getSearchAllProductsForAdmin = () => async (dispatch) => {
+export const getSearchAllProductsForAdmin = (q, sort, page, limit) => async (dispatch) => {
+  let limitNumber = 6;
+  if (limit) {
+    limitNumber = parseInt(limit);
+  }
   try {
-    const res = await axios.get('/api/products/admin');
+    let queryParams = `&limit=${limitNumber}`;
+    if (sort) {
+      if (page) {
+        queryParams = `&sort=${sort}&page=${page}&limit=${limitNumber}`;
+      }
+      else {
+        queryParams = `&sort=${sort}&limit=${limitNumber}`;
+      }
+    }
+    else {
+      if (page) {
+        queryParams = `&page=${page}&limit=${limitNumber}`
+      }
+    }
+    const res = await axios.get(`/api/products/admin?q=${q}${queryParams}`);
     dispatch({
       type: GET_ALL_PRODUCTS,
       payload: res.data,
