@@ -18,7 +18,7 @@ function Wrapper({ children }) {
         <SideBar />
       </div>
       <div className="content">
-        <NavBar title={title} subTitle={subTitle} />
+        <NavBar />
         {children}
       </div>
     </div>

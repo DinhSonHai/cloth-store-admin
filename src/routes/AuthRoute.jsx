@@ -19,7 +19,7 @@ const AuthRoute = ({
       ) : (
         <Redirect
           to={{
-            pathname: '/admin',
+            pathname: '/admin/products',
             state: { from: props.location },
           }}
         />

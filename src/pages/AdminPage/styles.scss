@@ -1,0 +1,322 @@
+.admin-page {
+  .profile {
+    margin-left: 100px;
+    margin-top: 37px;
+    display: flex;
+
+    .sidebar {
+      width: 250px;
+      &__title {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 1.33;
+        color: var(--dark-grey);
+        margin-bottom: 33px;
+      }
+
+      &__link {
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.57;
+        color: var(--greyish-brown);
+        cursor: pointer;
+        margin-bottom: 18px;
+        text-decoration: none;
+      }
+
+      &__name {
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.57;
+        color: var(--greyish-brown);
+        cursor: pointer;
+        margin-bottom: 18px;
+
+        &--active {
+          font-weight: 500;
+          color: var(--bright-orange);
+        }
+      }
+    }
+
+    .spinner-page {
+      width: 800px;
+    }
+
+    .sidebar-content {
+      width: 430px;
+      .information {
+        &__title {
+          height: 22px;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          & > p {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.57;
+            color: var(--dark-grey);
+          }
+
+          & > button {
+            height: 22px;
+            background-color: var(--white);
+            border: none;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.33;
+            color: var(--greyish-brown);
+          }
+        }
+
+        &__edit {
+          background-color: #f9f9f9;
+          width: 481px;
+          height: 192px;
+          margin-bottom: 129px;
+          padding: 26px 0 0 50px;
+
+          .content__form {
+            position: relative;
+
+            .field__label {
+              font-family: Montserrat;
+              font-size: 12px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.5;
+              letter-spacing: normal;
+              color: var(--dark-grey);
+            }
+
+            .content__error {
+              position: absolute;
+              margin-left: auto;
+              margin-right: auto;
+              left: -30px;
+              right: 0;
+              top: 96px;
+              text-align: center;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.83;
+              color: var(--strawberry);
+            }
+
+            .button {
+              display: flex;
+              justify-content: flex-end;
+              margin-right: 51px;
+              margin-top: 30px;
+              .cancel-button {
+                border: none;
+                background-color: #f9f9f9;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 1.57;
+                color: var(--dark-grey);
+                margin-right: 35px;
+              }
+              .submit-button {
+                position: relative;
+                border: none;
+                width: 120px;
+                height: 35px;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 1.57;
+                color: var(--white);
+                background-color: #ffa15f;
+
+                .spinner {
+                  position: absolute;
+                  top: 2px;
+                  left: 5px;
+                }
+
+                &:disabled {
+                  opacity: 0.7;
+                  background-color: var(--white-four);
+                }
+              }
+            }
+          }
+        }
+
+        &__info {
+          background-color: #f9f9f9;
+          height: 191px;
+          margin-bottom: 230px;
+          padding: 26px 0 0 50px;
+
+          .info__name {
+            .label {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.57;
+              color: var(--dark-grey);
+            }
+            .name {
+              font-size: 14px;
+              font-weight: normal;
+              line-height: 1.57;
+              color: var(--greyish-brown);
+              margin-top: 5px;
+              margin-bottom: 31px;
+            }
+          }
+
+          .info__email {
+            .label {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.57;
+              color: var(--dark-grey);
+            }
+            .email {
+              font-size: 14px;
+              font-weight: normal;
+              line-height: 1.57;
+              color: var(--greyish-brown);
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+
+      .password {
+        &__title {
+          height: 22px;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          & > p {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.57;
+            color: var(--dark-grey);
+          }
+        }
+
+        &__edit {
+          background-color: #f9f9f9;
+          width: 481px;
+          height: 389px;
+          margin-bottom: 129px;
+          padding: 26px 0 0 50px;
+
+          .content__form {
+            position: relative;
+
+            .field__label {
+              font-family: Montserrat;
+              font-size: 12px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.5;
+              letter-spacing: normal;
+              color: var(--dark-grey);
+            }
+
+            .content__error {
+              position: absolute;
+              margin-left: auto;
+              margin-right: auto;
+              left: 86px;
+              right: 0;
+              text-align: center;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.83;
+              color: var(--strawberry);
+            }
+
+            .button {
+              display: flex;
+              justify-content: flex-end;
+              margin-right: 51px;
+              margin-top: 30px;
+              .cancel-button {
+                border: none;
+                background-color: #f9f9f9;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 1.57;
+                color: var(--dark-grey);
+                margin-right: 35px;
+              }
+              .submit-button {
+                position: relative;
+                border: none;
+                width: 120px;
+                height: 35px;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 1.57;
+                color: var(--white);
+                background-color: #ffa15f;
+
+                .spinner {
+                  position: absolute;
+                  top: 2px;
+                  left: 5px;
+                }
+
+                &:disabled {
+                  opacity: 0.7;
+                  background-color: var(--white-four);
+                }
+              }
+            }
+          }
+        }
+
+        &__info {
+          background-color: #f9f9f9;
+          height: 191px;
+          margin-bottom: 230px;
+          padding: 26px 0 0 50px;
+
+          .info__name {
+            .label {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.57;
+              color: var(--dark-grey);
+            }
+            .name {
+              font-size: 14px;
+              font-weight: normal;
+              line-height: 1.57;
+              color: var(--greyish-brown);
+              margin-top: 5px;
+              margin-bottom: 31px;
+            }
+          }
+
+          .info__email {
+            .label {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.57;
+              color: var(--dark-grey);
+            }
+            .email {
+              font-size: 14px;
+              font-weight: normal;
+              line-height: 1.57;
+              color: var(--greyish-brown);
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 export { default as NavBar } from './layout/NavBar';
 
+export { default as AdminPage } from './AdminPage';
 export { default as LoginPage } from './LoginPage';
 export { default as ProductsPage } from './ProductsPage';
 export { default as OrdersPage } from './OrdersPage';

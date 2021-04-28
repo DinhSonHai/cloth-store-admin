@@ -69,14 +69,24 @@
       }
 
       &__link {
-        width: 181px;
+        width: 153px;
         cursor: pointer;
         padding: 7px 0 7px 13px;
         text-decoration: none;
-        font-size: 12px;
+        font-family: Montserrat;
+        font-size: 14px;
         font-weight: 500;
-        line-height: 1.83;
-        color: var(--greyish-brown);
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: normal;
+        color: var(--charcoal-grey);
+        display: flex;
+        align-items: center;
+
+        & > p {
+          margin-left: 12px;
+        }
       }
 
       &__divider {

@@ -4,14 +4,14 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../../redux/actions/auth';
 // import PropTypes from 'prop-types';
 
-import { DropDown } from '../../../assets/icons';
+import { DropDown, ProfileIcon, LogoutIcon } from '../../../assets/icons';
 import './styles.scss';
 
 NavBar.propTypes = {
 
 };
 
-function NavBar({ user, title, subTitle, logout }) {
+function NavBar({ user, logout }) {
   const history = useHistory();
   const location = useLocation().pathname;
 
@@ -31,6 +31,13 @@ function NavBar({ user, title, subTitle, logout }) {
 
   return (
     <div className="admin-navbar">
+
+      {
+        matchRoute("/admin") &&
+        <Fragment>
+          <p className="title">Admin profile</p>
+        </Fragment>
+      }
 
       {
         matchRoute("/admin/products") &&
@@ -69,10 +76,16 @@ function NavBar({ user, title, subTitle, logout }) {
           <DropDown />
           <div className="dropdown">
             <div>
-              <Link to="/admin?tab=profile" className="dropdown__link">Account Setting</Link>
+              <Link to="/admin" className="dropdown__link">
+                <ProfileIcon />
+                <p>View profile</p>
+              </Link>
             </div>
             <section className="dropdown__divider"></section>
-            <div onClick={logout} className="dropdown__link">Logout</div>
+            <div onClick={logout} className="dropdown__link">
+              <LogoutIcon />
+              <p>Logout</p>
+            </div>
           </div>
         </div>
       )}

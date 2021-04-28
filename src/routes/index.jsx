@@ -15,6 +15,7 @@ export default function routes() {
           (<Redirect to="/admin/products" />)}
         />
         <AuthRoute exact path="/admin/login" component={pages.LoginPage} />
+        <PrivateRoute exact path="/admin" component={pages.AdminPage} />
         <PrivateRoute exact path="/admin/products" component={pages.ProductsPage} />
         <PrivateRoute exact path="/admin/orders" component={pages.OrdersPage} />
         <PrivateRoute exact path="/admin/products/add" component={pages.AddProductPage} />

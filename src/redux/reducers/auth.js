@@ -2,6 +2,7 @@ import {
   LOGIN_SUCCESS,
   USER_LOADED,
   AUTH_ERROR,
+  UPDATE_PROFILE_ERRORS,
   LOG_OUT
 } from '../types';
 
@@ -32,6 +33,11 @@ export default function auth(state = initialState, action) {
         loading: false,
         user: payload,
         error: null
+      }
+    case UPDATE_PROFILE_ERRORS:
+      return {
+        ...state,
+        error: payload
       }
     case AUTH_ERROR:
     case LOG_OUT:
