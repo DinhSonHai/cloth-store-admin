@@ -41,7 +41,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
   const [currentLimit, setCurrentLimit] = useState(limit || 10);
   const [keyWord, setKeyWord] = useState(q || '');
 
-  const [value, onChange] = useState(from && to ? [new Date(from), new Date(to)] : [new Date(), new Date()]);
+  const [value, onChange] = useState(from && to ? [new Date(from), new Date(to)] : null);
 
   const handleSearchInputChange = (e) => {
     setKeyWord(e.target.value);

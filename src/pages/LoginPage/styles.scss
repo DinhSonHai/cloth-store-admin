@@ -51,6 +51,17 @@
     .content__form {
       padding: 0 32px;
 
+      .field__label {
+        font-family: Montserrat;
+        font-size: 12px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        color: var(--greyish);
+      }
+
       .form__button {
         border: none;
         width: 100%;

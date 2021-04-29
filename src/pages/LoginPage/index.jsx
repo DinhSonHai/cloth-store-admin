@@ -58,8 +58,10 @@ function LoginPage({ auth, login }) {
         >
           {formik => (
             <Form className="content__form">
-              <TextField type="text" label="E-MAIL" id="email" name="email" placeholder="Enter your email..." width={"316px"} height={"48px"} labelColor={"var(--greyish)"} backgroundColor={"var(--white-two)"} />
-              <TextField type="password" label="PASSWORD" name="password" placeholder="Enter your password..." width={"316px"} height={"48px"} labelColor={"var(--greyish)"} backgroundColor={"var(--white-two)"} />
+              <p className="field__label">EMAIL</p>
+              <TextField type="text" id="email" name="email" placeholder="Enter your email..." width={"316px"} height={"48px"} backgroundColor={"var(--white-two)"} />
+              <p className="field__label">PASSWORD</p>
+              <TextField type="password" id="password" name="password" placeholder="Enter your password..." width={"316px"} height={"48px"} backgroundColor={"var(--white-two)"} />
 
               <button type="submit" className="form__button" disabled={!formik.isValid} >
                 {loading && <span className="spinner"><Spinner width="49px" /></span>}
@@ -68,7 +70,6 @@ function LoginPage({ auth, login }) {
             </Form>
           )}
         </Formik>
-        <p className="form__option">Forgot password</p>
       </div>
     </div>
   );
