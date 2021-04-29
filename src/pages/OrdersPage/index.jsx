@@ -30,51 +30,45 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
   const q = query.get("q");
   const sort = query.get("sort");
   const page = parseInt(query.get("page"));
+  const limit = parseInt(query.get("limit"));
+  const from = parseInt(query.get("from"));
+  const to = parseInt(query.get("to"));
 
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(page || 1);
-  const [sortState, setSortState] = useState('Date Added');
+  const [sortState, setSortState] = useState(sort || 'date');
   const [isOpenLimit, setOpenLimit] = useState(false);
-  const [limit, setLimit] = useState('10');
+  const [currentLimit, setCurrentLimit] = useState(limit || 10);
   const [keyWord, setKeyWord] = useState(q || '');
+
+  const [value, onChange] = useState(from && to ? [new Date(from), new Date(to)] : [new Date(), new Date()]);
 
   const handleSearchInputChange = (e) => {
     setKeyWord(e.target.value);
+    if (!e.target.value) {
+      setSortState('date');
+      setCurrentPage(1);
+      history.push(`/admin/orders?sort=${'date'}&page=${1}&limit=${currentLimit}`);
+    }
   }
 
 
   const handleKeyPress = (e) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
-    }
-
-    let type = 'date';
-    if (sort) {
-      type = sort;
-    }
-
-    setCurrentPage(1);
-
     if (e.key === 'Enter') {
-      history.push(`/admin/orders?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
+      if (keyWord) {
+        setSortState('date');
+        setCurrentPage(1);
+        history.push(`/admin/orders?q=${keyWord}&sort=${'date'}&page=${1}&limit=${currentLimit}`);
+      }
     }
   }
 
   const handleSearchClick = (e) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
+    if (keyWord) {
+      setSortState('date');
+      setCurrentPage(1);
+      history.push(`/admin/orders?q=${keyWord}&sort=${'date'}&page=${1}&limit=${currentLimit}`);
     }
-
-    let type = 'date';
-    if (sort) {
-      type = sort;
-    }
-
-    setCurrentPage(1);
-
-    history.push(`/admin/orders?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
   }
 
   const handleOpenLimit = () => {
@@ -82,28 +76,24 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
   }
 
   const handleSelectLimit = (type) => {
-    let limitNumber = 10;
-    if (type === '10') {
-      setLimit('10');
-      limitNumber = parseInt(type);
+    let defaultLimit = 10;
+    if (type === 10) {
+      setCurrentLimit(10);
+      defaultLimit = 10;
     }
-    else if (type === '20') {
-      setLimit('20');
-      limitNumber = parseInt(type);
+    else if (type === 20) {
+      setCurrentLimit(20);
+      defaultLimit = 20;
     }
-    setCurrentPage(1);
+
     setOpenLimit(false);
-    if (q) {
-      if (sort) {
-        return history.push(`/admin/orders?q=${q}&sort=${sort}&page=${1}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/orders?q=${q}&page=${1}&limit=${limitNumber}`);
+    setCurrentPage(1);
+
+    if (keyWord) {
+      return history.push(`/admin/orders?q=${keyWord}&sort=${sortState}&page=${1}&limit=${defaultLimit}`);
     }
     else {
-      if (sort) {
-        return history.push(`/admin/orders?sort=${sort}&page=${1}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/orders?page=${1}&limit=${limitNumber}`);
+      return history.push(`/admin/orders?sort=${sortState}&page=${1}&limit=${defaultLimit}`);
     }
   }
 
@@ -115,21 +105,12 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
   }
 
   const handlePagination = (pageNumber) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
-    }
-    if (q) {
-      if (sort) {
-        return history.push(`/admin/orders?q=${q}&sort=${sort}&page=${pageNumber}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/orders?q=${q}&page=${pageNumber}&limit=${limitNumber}`);
+    setCurrentPage(pageNumber);
+    if (keyWord) {
+      return history.push(`/admin/orders?q=${keyWord}&sort=${sortState}&page=${pageNumber}&limit=${currentLimit}`);
     }
     else {
-      if (sort) {
-        return history.push(`/admin/orders?sort=${sort}&page=${pageNumber}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/orders?page=${pageNumber}&limit=${limitNumber}`);
+      return history.push(`/admin/orders?sort=${sortState}&page=${pageNumber}&limit=${currentLimit}`);
     }
   }
 
@@ -181,24 +162,56 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
     });
   }
 
+  const handleSort = (type) => {
+    let defaultSort = 'date';
+    if (type === 'today') {
+      setSortState(type);
+      defaultSort = type;
+    }
+    else if (type === 'yesterday') {
+      setSortState(type);
+      defaultSort = type;
+    }
+    else if (type === 'date') {
+      setSortState(type);
+      defaultSort = 'date';
+    }
+
+    onChange(null);
+
+    setCurrentPage(1);
+
+    if (keyWord) {
+      return history.push(`/admin/orders?q=${keyWord}&sort=${defaultSort}&page=${1}&limit=${currentLimit}`);
+    }
+    else {
+      return history.push(`/admin/orders?sort=${defaultSort}&page=${1}&limit=${currentLimit}`);
+    }
+  }
+
+  const handleDateRangeChange = (value) => {
+    onChange(value);
+    let start = Date.parse(value[0]);
+    let end = Date.parse(value[1]);
+
+    setCurrentPage(1);
+
+    if (keyWord) {
+      return history.push(`/admin/orders?q=${keyWord}&from=${start}&to=${end}&page=${1}&limit=${currentLimit}`);
+    }
+    else {
+      return history.push(`/admin/orders?from=${start}&to=${end}&page=${1}&limit=${currentLimit}`);
+    }
+  }
+
   useEffect(() => {
     async function handleGetData() {
       setLoading(true);
       if (q) {
-        if (sort) {
-          await getSearchAllOrdersForAdmin(q, sort, page, limit);
-        }
-        else {
-          await getSearchAllOrdersForAdmin(q, null, page, limit);
-        }
+        await getSearchAllOrdersForAdmin(keyWord, sortState, currentPage, currentLimit, value);
       }
       else {
-        if (sort) {
-          await getAllOrdersForAdmin(sort, page, limit);
-        }
-        else {
-          await getAllOrdersForAdmin(null, page, limit);
-        }
+        await getAllOrdersForAdmin(sortState, currentPage, currentLimit, value);
       }
       setLoading(false);
     }
@@ -207,7 +220,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllOrdersForAdmin, q, sort, page, limit]);
+  }, [getAllOrdersForAdmin, getSearchAllOrdersForAdmin, q, sort, page, limit, from, to, sortState, currentPage, currentLimit, value]);
 
   return (
     <Wrapper>
@@ -223,13 +236,14 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
                 dayAriaLabel="Day"
                 monthAriaLabel="Month"
                 nativeInputAriaLabel="Date"
-                // onChange={onChange}
-                // value={value}
+                onChange={value => handleDateRangeChange(value)}
+                value={value}
                 clearIcon={null}
                 yearAriaLabel="Year"
               />
-              <button className="today">Today</button>
-              <button className="yesterday">Yesterday</button>
+              <button className="today" onClick={() => handleSort('today')}>Today</button>
+              <button className="yesterday" onClick={() => handleSort('yesterday')}>Yesterday</button>
+              <button className="all-orders" onClick={() => handleSort('date')}>Reset</button>
             </div>
             <div className="action">
               <div className="search-box">
@@ -301,35 +315,31 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
               </tbody>
             </table>
             <div className="table__option">
-              {page ? (
-                page * limit > total ? (
-                  <p>{`Show ${(page - 1) * limit + 1} to ${total} of ${total} entries`}</p>
-                ) : (
-                  <p>{`Show ${(page - 1) * limit + 1} to ${page * limit} of ${total} entries`}</p>
-                )
+              {total === 0 ? (
+                <p>{`No order found`}</p>
               ) : (
-                limit > total ? (
-                  <p>{`Show 1 to ${total} of ${total} entries`}</p>
+                currentPage * currentLimit > total ? (
+                  <p>{`Show ${(currentPage - 1) * currentLimit + 1} to ${total} of ${total} entries`}</p>
                 ) : (
-                  <p>{`Show 1 to 6 of ${total} entries`}</p>
+                  <p>{`Show ${(currentPage - 1) * currentLimit + 1} to ${currentPage * currentLimit} of ${total} entries`}</p>
                 )
               )}
               <div className="pagination">
                 <div className="limit" ref={wrapperRef}>
                   <div className="select-box" onClick={handleOpenLimit}>
-                    <p className="type">{limit}</p>
+                    <p className="type">{currentLimit}</p>
                     <span className={isOpenLimit ? "rotate" : ""}>
                       <DropDown />
                     </span>
                   </div>
                   {isOpenLimit && (
                     <div className="select__option">
-                      <p onClick={() => handleSelectLimit('10')}>10</p>
-                      <p onClick={() => handleSelectLimit('20')}>20</p>
+                      <p onClick={() => handleSelectLimit(10)}>10</p>
+                      <p onClick={() => handleSelectLimit(20)}>20</p>
                     </div>
                   )}
                 </div>
-                <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} handlePagination={handlePagination} total={total} limit={parseInt(limit)} />
+                <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} handlePagination={handlePagination} total={total} limit={currentLimit} />
               </div>
             </div>
           </div>

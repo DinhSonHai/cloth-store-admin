@@ -22,7 +22,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-function ProductsPage({ products: { products, total }, setSubTitle, getAllProductsForAdmin, getSearchAllProductsForAdmin, removeProduct }) {
+function ProductsPage({ products: { products, total }, getAllProductsForAdmin, getSearchAllProductsForAdmin, removeProduct }) {
   const query = useQuery();
   const history = useHistory();
   const wrapperRef = useRef();
@@ -59,21 +59,28 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
 
   const handleSearchInputChange = (e) => {
     setKeyWord(e.target.value);
+    if (!e.target.value) {
+      setSortState('date');
+      setCurrentPage(1);
+      history.push(`/admin/products?sort=${'date'}&page=${1}&limit=${currentLimit}`);
+    }
   }
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (keyWord) {
+        setSortState('date');
         setCurrentPage(1);
-        history.push(`/admin/products?q=${keyWord}&sort=${sortState}&page=${1}&limit=${currentLimit}`);
+        history.push(`/admin/products?q=${keyWord}&sort=${'date'}&page=${1}&limit=${currentLimit}`);
       }
     }
   }
 
   const handleSearchClick = (e) => {
     if (keyWord) {
+      setSortState('date');
       setCurrentPage(1);
-      history.push(`/admin/products?q=${keyWord}&sort=${sortState}&page=${1}&limit=${currentLimit}`);
+      history.push(`/admin/products?q=${keyWord}&sort=${'date'}&page=${1}&limit=${currentLimit}`);
     }
   }
 
@@ -166,6 +173,24 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
     }
   }
 
+  useEffect(() => {
+    async function handleGetData() {
+      setLoading(true);
+      if (q) {
+        await getSearchAllProductsForAdmin(keyWord, sortState, currentPage, currentLimit);
+      }
+      else {
+        await getAllProductsForAdmin(sortState, currentPage, currentLimit);
+      }
+      setLoading(false);
+    }
+    handleGetData();
+    document.addEventListener('click', closeLimit);
+    return () => {
+      document.removeEventListener('click', closeLimit)
+    }
+  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit]);
+
   return (
     <Wrapper>
       <div className="products">
@@ -251,23 +276,19 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
               </tbody>
             </table>
             <div className="table__option">
-              {page ? (
-                page * limit > total ? (
-                  <p>{`Show ${(page - 1) * limit + 1} to ${total} of ${total} entries`}</p>
-                ) : (
-                  <p>{`Show ${(page - 1) * limit + 1} to ${page * limit} of ${total} entries`}</p>
-                )
+              {total === 0 ? (
+                <p>{`No product found`}</p>
               ) : (
-                limit > total ? (
-                  <p>{`Show 1 to ${total} of ${total} entries`}</p>
+                currentPage * currentLimit > total ? (
+                  <p>{`Show ${(currentPage - 1) * currentLimit + 1} to ${total} of ${total} entries`}</p>
                 ) : (
-                  <p>{`Show 1 to 6 of ${total} entries`}</p>
+                  <p>{`Show ${(currentPage - 1) * currentLimit + 1} to ${currentPage * currentLimit} of ${total} entries`}</p>
                 )
               )}
               <div className="pagination">
                 <div className="limit" ref={wrapperRef}>
                   <div className="select-box" onClick={handleOpenLimit}>
-                    <p className="type">{limit}</p>
+                    <p className="type">{currentLimit}</p>
                     <span className={isOpenLimit ? "rotate" : ""}>
                       <DropDown />
                     </span>
