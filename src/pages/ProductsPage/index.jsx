@@ -30,32 +30,23 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
   const q = query.get("q");
   const sort = query.get("sort");
   const page = parseInt(query.get("page"));
+  const limit = parseInt(query.get("limit"));
 
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortState, setSortState] = useState('Date Added');
+  const [currentPage, setCurrentPage] = useState(page || 1);
+  const [sortState, setSortState] = useState(sort || 'date');
   const [isOpenLimit, setOpenLimit] = useState(false);
-  const [limit, setLimit] = useState('6');
+  const [currentLimit, setCurrentLimit] = useState(limit || 6);
   const [keyWord, setKeyWord] = useState(q || '');
 
   useEffect(() => {
     async function handleGetData() {
       setLoading(true);
       if (q) {
-        if (sort) {
-          await getSearchAllProductsForAdmin(q, sort, page, limit);
-        }
-        else {
-          await getSearchAllProductsForAdmin(q, null, page, limit);
-        }
+        await getSearchAllProductsForAdmin(keyWord, sortState, currentPage, currentLimit);
       }
       else {
-        if (sort) {
-          await getAllProductsForAdmin(sort, page, limit);
-        }
-        else {
-          await getAllProductsForAdmin(null, page, limit);
-        }
+        await getAllProductsForAdmin(sortState, currentPage, currentLimit);
       }
       setLoading(false);
     }
@@ -64,48 +55,25 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit]);
+  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit]);
 
   const handleSearchInputChange = (e) => {
     setKeyWord(e.target.value);
   }
 
-
   const handleKeyPress = (e) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
-    }
-
-    let type = 'date';
-    if (sort) {
-      type = sort;
-    }
-
-    setCurrentPage(1);
-
     if (e.key === 'Enter') {
       if (keyWord) {
-        history.push(`/admin/products?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
+        setCurrentPage(1);
+        history.push(`/admin/products?q=${keyWord}&sort=${sortState}&page=${1}&limit=${currentLimit}`);
       }
     }
   }
 
   const handleSearchClick = (e) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
-    }
-
-    let type = 'date';
-    if (sort) {
-      type = sort;
-    }
-
-    setCurrentPage(1);
-
     if (keyWord) {
-      history.push(`/admin/products?q=${keyWord}&sort=${type}&page=${1}&limit=${limitNumber}`);
+      setCurrentPage(1);
+      history.push(`/admin/products?q=${keyWord}&sort=${sortState}&page=${1}&limit=${currentLimit}`);
     }
   }
 
@@ -114,28 +82,24 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
   }
 
   const handleSelectLimit = (type) => {
-    let limitNumber = 6;
-    if (type === '6') {
-      setLimit('6');
-      limitNumber = parseInt(type);
+    let defaultLimit = 6;
+    if (type === 6) {
+      setCurrentLimit(6);
+      defaultLimit = 6;
     }
-    else if (type === '12') {
-      setLimit('12');
-      limitNumber = parseInt(type);
+    else if (type === 12) {
+      setCurrentLimit(12);
+      defaultLimit = 12;
     }
-    setCurrentPage(1);
+
     setOpenLimit(false);
-    if (q) {
-      if (sort) {
-        return history.push(`/admin/products?q=${q}&sort=${sort}&page=${1}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/products?q=${q}&page=${1}&limit=${limitNumber}`);
+    setCurrentPage(1);
+
+    if (keyWord) {
+      return history.push(`/admin/products?q=${keyWord}&sort=${sortState}&page=${1}&limit=${defaultLimit}`);
     }
     else {
-      if (sort) {
-        return history.push(`/admin/products?sort=${sort}&page=${1}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/products?page=${1}&limit=${limitNumber}`);
+      return history.push(`/admin/products?sort=${sortState}&page=${1}&limit=${defaultLimit}`);
     }
   }
 
@@ -172,37 +136,33 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
   }
 
   const handlePagination = (pageNumber) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
-    }
-    if (q) {
-      if (sort) {
-        return history.push(`/admin/products?q=${q}&sort=${sort}&page=${pageNumber}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/products?q=${q}&page=${pageNumber}&limit=${limitNumber}`);
+    setCurrentPage(pageNumber);
+    if (keyWord) {
+      return history.push(`/admin/products?q=${keyWord}&sort=${sortState}&page=${pageNumber}&limit=${currentLimit}`);
     }
     else {
-      if (sort) {
-        return history.push(`/admin/products?sort=${sort}&page=${pageNumber}&limit=${limitNumber}`);
-      }
-      return history.push(`/admin/products?page=${pageNumber}&limit=${limitNumber}`);
+      return history.push(`/admin/products?sort=${sortState}&page=${pageNumber}&limit=${currentLimit}`);
     }
   }
 
   const handleSort = (type) => {
-    let limitNumber = 6;
-    if (limit) {
-      limitNumber = parseInt(limit);
+    let defaultSort = 'date';
+    if (type === 'date') {
+      setSortState(type);
+      defaultSort = type;
+    }
+    else if (type === 'profit') {
+      setSortState(type);
+      defaultSort = type;
     }
 
     setCurrentPage(1);
 
-    if (q) {
-      return history.push(`/admin/products?q=${q}&sort=${type}&page=${1}&limit=${limitNumber}`);
+    if (keyWord) {
+      return history.push(`/admin/products?q=${keyWord}&sort=${defaultSort}&page=${1}&limit=${currentLimit}`);
     }
     else {
-      return history.push(`/admin/products?sort=${type}&page=${1}&limit=${limitNumber}`);
+      return history.push(`/admin/products?sort=${defaultSort}&page=${1}&limit=${currentLimit}`);
     }
   }
 
@@ -314,12 +274,12 @@ function ProductsPage({ products: { products, total }, setSubTitle, getAllProduc
                   </div>
                   {isOpenLimit && (
                     <div className="select__option">
-                      <p onClick={() => handleSelectLimit('6')}>6</p>
-                      <p onClick={() => handleSelectLimit('12')}>12</p>
+                      <p onClick={() => handleSelectLimit(6)}>6</p>
+                      <p onClick={() => handleSelectLimit(12)}>12</p>
                     </div>
                   )}
                 </div>
-                <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} handlePagination={handlePagination} total={total} limit={parseInt(limit)} />
+                <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} handlePagination={handlePagination} total={total} limit={currentLimit} />
               </div>
             </div>
           </div>

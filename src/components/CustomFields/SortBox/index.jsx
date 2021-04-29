@@ -18,12 +18,6 @@ function SelectBox({ handleSort, sortState, setSortState }) {
   }
 
   const handleSelect = (type) => {
-    if (type === 'date') {
-      setSortState('Date added');
-    }
-    else if (type === 'profit') {
-      setSortState('Profit');
-    }
     setOpen(false);
     handleSort(type);
   }
@@ -45,7 +39,7 @@ function SelectBox({ handleSort, sortState, setSortState }) {
   return (
     <div className="select-box" ref={wrapperRef}>
       <div className="select" onClick={handleOpen}>
-        <p className="type">{sortState}</p>
+        <p className="type">{sortState === 'date' && 'Date Added'}{sortState === 'profit' && 'Profit'}</p>
         <span className={isOpen ? "rotate" : ""}>
           <DropDown />
         </span>

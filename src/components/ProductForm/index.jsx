@@ -49,7 +49,9 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
   })
 
   const handleCancel = () => {
-    return history.push("/admin/products");
+    // return history.push("/admin/products");
+    console.log('cancel')
+    return history.goBack();
   }
 
   useEffect(() => {
@@ -90,17 +92,18 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
             const photos = photoList.filter(photo => photo);
 
             async function sendData() {
+              console.log('edit')
               setLoading(true);
               const result = await editProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos }, productId);
               setLoading(false);
               // console.log({ ...values, categories, sizes, colors, brandId: values.brand, photos });
               if (result) {
-                return history.push("/admin/products");
+                return history.goBack();
               }
             }
             sendData();
           }}
-        // validateOnMount
+          validateOnMount
         >
           {formik => (
             <Form className="content__form">
@@ -120,10 +123,10 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
               <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
 
               <div className="button">
-                <button onClick={handleCancel} className="button__cancel">Cancel</button>
+                <button type="button" onClick={handleCancel} className="button__cancel">Cancel</button>
                 <button type="submit" className="button__complete" disabled={!formik.isValid} >
                   {loading && <span className="spinner"><Spinner width="49px" /></span>}
-                Complete
+                  Complete
               </button>
               </div>
             </Form>
@@ -148,6 +151,7 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
             const colors = values.colors.map(item => item.value);
             const photos = photoList.filter(photo => photo);
             async function sendData() {
+              console.log('add')
               setLoading(true);
               const result = await addProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos });
               setLoading(false);
@@ -177,11 +181,11 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
               <TextAreaField label="DESCRIPTION" id="description" name="description" placeholder="Add product description..." width={"803px"} height={"112px"} backgroundColor={"var(--white)"} />
 
               <div className="button">
-                <button onClick={handleCancel} className="button__cancel">Cancel</button>
+                <button type="button" onClick={handleCancel} className="button__cancel">Cancel</button>
                 <button type="submit" className="button__complete" disabled={!formik.isValid} >
                   {loading && <span className="spinner"><Spinner width="49px" /></span>}
-                Complete
-              </button>
+                  Complete
+                  </button>
               </div>
             </Form>
           )}

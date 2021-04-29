@@ -11,7 +11,6 @@ PaginationComponent.propTypes = {
 
 function PaginationComponent({ currentPage, setCurrentPage, handlePagination, total, limit }) {
   const handlePageChange = (page, e) => {
-    setCurrentPage(page);
     handlePagination(page);
   };
 

@@ -4,26 +4,10 @@ import { GET_ALL_PRODUCTS, ADD_PRODUCT_SUCCESS, GET_PRODUCT_BY_ID } from '../typ
 
 // Action creator
 export const getAllProductsForAdmin = (sort, page, limit) => async (dispatch) => {
-  let limitNumber = 6;
-  if (limit) {
-    limitNumber = parseInt(limit);
-  }
+  let queryParams = `?sort=${sort}&page=${page}&limit=${limit}`;
+
   try {
-    let queryParams = `?limit=${limitNumber}`;
-    if (sort) {
-      if (page) {
-        queryParams = `?sort=${sort}&page=${page}&limit=${limitNumber}`;
-      }
-      else {
-        queryParams = `?sort=${sort}&limit=${limitNumber}`;
-      }
-    }
-    else {
-      if (page) {
-        queryParams = `?page=${page}&limit=${limitNumber}`
-      }
-    }
-    const res = await axios.get(`/api/products/admin/${queryParams}`);
+    const res = await axios.get(`/api/products/admin${queryParams}`);
     dispatch({
       type: GET_ALL_PRODUCTS,
       payload: res.data,
@@ -38,26 +22,14 @@ export const getAllProductsForAdmin = (sort, page, limit) => async (dispatch) =>
 
 // Action creator
 export const getSearchAllProductsForAdmin = (q, sort, page, limit) => async (dispatch) => {
-  let limitNumber = 6;
-  if (limit) {
-    limitNumber = parseInt(limit);
+  let queryParams = `?sort=${sort}&page=${page}&limit=${limit}`;
+
+  if (q) {
+    queryParams = `?q=${q}&sort=${sort}&page=${page}&limit=${limit}`;
   }
+
   try {
-    let queryParams = `&limit=${limitNumber}`;
-    if (sort) {
-      if (page) {
-        queryParams = `&sort=${sort}&page=${page}&limit=${limitNumber}`;
-      }
-      else {
-        queryParams = `&sort=${sort}&limit=${limitNumber}`;
-      }
-    }
-    else {
-      if (page) {
-        queryParams = `&page=${page}&limit=${limitNumber}`
-      }
-    }
-    const res = await axios.get(`/api/products/admin?q=${q}${queryParams}`);
+    const res = await axios.get(`/api/products/admin${queryParams}`);
     dispatch({
       type: GET_ALL_PRODUCTS,
       payload: res.data,
@@ -109,7 +81,6 @@ export const addProduct = async (formData) => {
 }
 
 export const editProduct = (formData, productId) => async (dispatch) => {
-  console.log('123')
   const config = {
     headers: {
       'Content-Type': 'application/json',

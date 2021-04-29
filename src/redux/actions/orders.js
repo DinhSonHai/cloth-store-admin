@@ -4,26 +4,10 @@ import { GET_ALL_ORDERS } from '../types';
 
 // Action creator
 export const getAllOrdersForAdmin = (sort, page, limit) => async (dispatch) => {
-  let limitNumber = 10;
-  if (limit) {
-    limitNumber = parseInt(limit);
-  }
+  let queryParams = `?sort=${sort}&page=${page}&limit=${limit}`;
+
   try {
-    let queryParams = `?limit=${limitNumber}`;
-    if (sort) {
-      if (page) {
-        queryParams = `?sort=${sort}&page=${page}&limit=${limitNumber}`;
-      }
-      else {
-        queryParams = `?sort=${sort}&limit=${limitNumber}`;
-      }
-    }
-    else {
-      if (page) {
-        queryParams = `?page=${page}&limit=${limitNumber}`
-      }
-    }
-    const res = await axios.get(`/api/orders/admin/${queryParams}`);
+    const res = await axios.get(`/api/orders/admin${queryParams}`);
     dispatch({
       type: GET_ALL_ORDERS,
       payload: res.data,
@@ -38,26 +22,14 @@ export const getAllOrdersForAdmin = (sort, page, limit) => async (dispatch) => {
 
 // Action creator
 export const getSearchAllOrdersForAdmin = (q, sort, page, limit) => async (dispatch) => {
-  let limitNumber = 10;
-  if (limit) {
-    limitNumber = parseInt(limit);
+  let queryParams = `?sort=${sort}&page=${page}&limit=${limit}`;
+
+  if (q) {
+    queryParams = `?q=${q}&sort=${sort}&page=${page}&limit=${limit}`;
   }
+
   try {
-    let queryParams = `&limit=${limitNumber}`;
-    if (sort) {
-      if (page) {
-        queryParams = `&sort=${sort}&page=${page}&limit=${limitNumber}`;
-      }
-      else {
-        queryParams = `&sort=${sort}&limit=${limitNumber}`;
-      }
-    }
-    else {
-      if (page) {
-        queryParams = `&page=${page}&limit=${limitNumber}`
-      }
-    }
-    const res = await axios.get(`/api/orders/admin?q=${q}${queryParams}`);
+    const res = await axios.get(`/api/oders/admin${queryParams}`);
     dispatch({
       type: GET_ALL_ORDERS,
       payload: res.data,
@@ -70,10 +42,10 @@ export const getSearchAllOrdersForAdmin = (q, sort, page, limit) => async (dispa
   }
 }
 
-export const completeOrder = (orderId) => async (dispatch) => {
+export const completeOrder = (orderId, sort, page, limit) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/orders/admin/${orderId}/complete`);
-    dispatch(getAllOrdersForAdmin());
+    dispatch(getAllOrdersForAdmin(sort, page, limit));
     toast.success(res.data.message);
   } catch (err) {
     const error = err.response.data;
@@ -83,10 +55,10 @@ export const completeOrder = (orderId) => async (dispatch) => {
   }
 }
 
-export const cancelOrder = (orderId) => async (dispatch) => {
+export const cancelOrder = (orderId, sort, page, limit) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/orders/admin/${orderId}/cancel`);
-    dispatch(getAllOrdersForAdmin());
+    dispatch(getAllOrdersForAdmin(sort, page, limit));
     toast.success(res.data.message);
   } catch (err) {
     const error = err.response.data;

@@ -32,7 +32,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
   const page = parseInt(query.get("page"));
 
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(page || 1);
   const [sortState, setSortState] = useState('Date Added');
   const [isOpenLimit, setOpenLimit] = useState(false);
   const [limit, setLimit] = useState('10');
@@ -143,7 +143,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
           onClick: () => {
             async function cancel() {
               setLoading(true);
-              await completeOrder(orderId);
+              await completeOrder(orderId, sort, page, limit);
               setLoading(false);
             }
             cancel();
@@ -167,7 +167,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
           onClick: () => {
             async function cancel() {
               setLoading(true);
-              await cancelOrder(orderId);
+              await cancelOrder(orderId, sort, page, limit);
               setLoading(false);
             }
             cancel();
