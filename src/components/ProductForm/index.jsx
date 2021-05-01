@@ -37,12 +37,14 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
     brand: Yup.string()
       .required('Please select brand!'),
     price: Yup.number()
+      .min(1, 'Price must be greater than or equal to 1')
       .required('Please enter a valid price!'),
     sizes: Yup.array()
       .min(1, 'Please select sizes!'),
     colors: Yup.array()
       .min(1, 'Please select colors!'),
     quantity: Yup.number()
+      .min(1, 'Quantity must be greater than or equal to 1')
       .required('Please enter a valid quantity!'),
     description: Yup.string()
       .required('Please enter description')
