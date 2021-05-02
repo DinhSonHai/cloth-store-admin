@@ -100,10 +100,16 @@ export const editProduct = (formData, productId) => async (dispatch) => {
   }
 }
 
-export const removeProduct = (productId) => async (dispatch) => {
+export const removeProduct = (productId, q, sort, page, limit,) => async (dispatch) => {
   try {
     await axios.delete(`/api/products/${productId}`);
-    dispatch(getAllProductsForAdmin());
+    console.log(q, sort, page, limit)
+    if (q) {
+      dispatch(getSearchAllProductsForAdmin(q, sort, page, limit));
+    }
+    else {
+      dispatch(getAllProductsForAdmin(sort, page, limit));
+    }
   } catch (err) {
     const error = err.response.data;
     if (error) {

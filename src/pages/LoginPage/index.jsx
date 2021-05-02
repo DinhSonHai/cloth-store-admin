@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ import { login } from '../../redux/actions/auth';
 import TextField from '../../components/CustomFields/TextField';
 import { AdminLogo } from '../../assets/icons/index';
 import './styles.scss';
-import Spinner from '../../components/Spinner';
 
 LoginPage.propTypes = {
 
@@ -17,8 +16,6 @@ LoginPage.propTypes = {
 
 function LoginPage({ auth, login }) {
   const history = useHistory();
-
-  const [loading, setLoading] = useState(false);
 
   const validate = Yup.object({
     email: Yup.string()
@@ -45,9 +42,7 @@ function LoginPage({ auth, login }) {
           validationSchema={validate}
           onSubmit={values => {
             async function handleLogin() {
-              setLoading(true);
               const isSuccess = await login(values);
-              setLoading(false);
               if (isSuccess) {
                 history.push("/");
               }
@@ -64,7 +59,6 @@ function LoginPage({ auth, login }) {
               <TextField type="password" id="password" name="password" placeholder="Enter your password..." width={"316px"} height={"48px"} backgroundColor={"var(--white-two)"} />
 
               <button type="submit" className="form__button" disabled={!formik.isValid} >
-                {loading && <span className="spinner"><Spinner width="49px" /></span>}
                 Login
               </button>
             </Form>

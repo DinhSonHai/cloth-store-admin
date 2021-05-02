@@ -50,10 +50,15 @@ export const getSearchAllOrdersForAdmin = (q, sort, page, limit, value) => async
   }
 }
 
-export const completeOrder = (orderId, sort, page, limit) => async (dispatch) => {
+export const completeOrder = (orderId, q, sort, page, limit, value) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/orders/admin/${orderId}/complete`);
-    dispatch(getAllOrdersForAdmin(sort, page, limit));
+    if (q) {
+      dispatch(getSearchAllOrdersForAdmin(q, sort, page, limit, value));
+    }
+    else {
+      dispatch(getAllOrdersForAdmin(sort, page, limit, value));
+    }
     toast.success(res.data.message);
   } catch (err) {
     const error = err.response.data;
@@ -63,10 +68,15 @@ export const completeOrder = (orderId, sort, page, limit) => async (dispatch) =>
   }
 }
 
-export const cancelOrder = (orderId, sort, page, limit) => async (dispatch) => {
+export const cancelOrder = (orderId, q, sort, page, limit, value) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/orders/admin/${orderId}/cancel`);
-    dispatch(getAllOrdersForAdmin(sort, page, limit));
+    if (q) {
+      dispatch(getSearchAllOrdersForAdmin(q, sort, page, limit, value));
+    }
+    else {
+      dispatch(getAllOrdersForAdmin(sort, page, limit, value));
+    }
     toast.success(res.data.message);
   } catch (err) {
     const error = err.response.data;

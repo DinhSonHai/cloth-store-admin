@@ -114,7 +114,9 @@ function ProductsPage({ products: { products, total }, getAllProductsForAdmin, g
       buttons: [
         {
           label: 'Yes',
-          onClick: () => removeProduct(productId)
+          onClick: () => {
+            removeProduct(productId, keyWord, sortState, currentPage, currentLimit);
+          }
         },
         {
           label: 'No',
@@ -159,10 +161,10 @@ function ProductsPage({ products: { products, total }, getAllProductsForAdmin, g
     async function handleGetData() {
       setLoading(true);
       if (q) {
-        await getSearchAllProductsForAdmin(keyWord, sortState, currentPage, currentLimit);
+        getSearchAllProductsForAdmin(keyWord, sortState, currentPage, currentLimit);
       }
       else {
-        await getAllProductsForAdmin(sortState, currentPage, currentLimit);
+        getAllProductsForAdmin(sortState, currentPage, currentLimit);
       }
       setLoading(false);
     }
@@ -171,7 +173,7 @@ function ProductsPage({ products: { products, total }, getAllProductsForAdmin, g
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit, keyWord]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Wrapper>

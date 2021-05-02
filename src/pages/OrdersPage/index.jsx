@@ -123,9 +123,9 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
           label: 'Yes',
           onClick: () => {
             async function cancel() {
-              setLoading(true);
-              await completeOrder(orderId, sort, page, limit);
-              setLoading(false);
+              // setLoading(true);
+              completeOrder(orderId, keyWord, sortState, currentPage, currentLimit, value);
+              // setLoading(false);
             }
             cancel();
           }
@@ -147,9 +147,9 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
           label: 'Yes',
           onClick: () => {
             async function cancel() {
-              setLoading(true);
-              await cancelOrder(orderId, sort, page, limit);
-              setLoading(false);
+              // setLoading(true);
+              cancelOrder(orderId, keyWord, sortState, currentPage, currentLimit, value);
+              // setLoading(false);
             }
             cancel();
           }
