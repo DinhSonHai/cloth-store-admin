@@ -9,7 +9,7 @@ import { getAllOrdersForAdmin, getSearchAllOrdersForAdmin, completeOrder, cancel
 import Wrapper from '../../components/Wrapper';
 import Spinner from '../../components/Spinner';
 import PaginationComponent from '../../components/PaginationComponent';
-import { DropDown, PlusWhite, SearchIconv2, EditIcon, RemoveIcon, CalendarIcon } from '../../assets/icons';
+import { DropDown, SearchIconv2 } from '../../assets/icons';
 import './styles.scss';
 
 OrdersPage.propTypes = {
@@ -220,7 +220,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllOrdersForAdmin, getSearchAllOrdersForAdmin, q, sort, page, limit, from, to, sortState, currentPage, currentLimit, value]);
+  }, [getAllOrdersForAdmin, getSearchAllOrdersForAdmin, q, sort, page, limit, from, to, sortState, currentPage, currentLimit, value, keyWord]);
 
   return (
     <Wrapper>

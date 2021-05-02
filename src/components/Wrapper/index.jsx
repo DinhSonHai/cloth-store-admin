@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 
 import NavBar from '../../pages/layout/NavBar';
@@ -10,8 +10,6 @@ Wrapper.propTypes = {
 };
 
 function Wrapper({ children }) {
-  const [title, setTitle] = useState('');
-  const [subTitle, setSubTitle] = useState('');
   return (
     <div className="wrapper">
       <div className="sidebar">

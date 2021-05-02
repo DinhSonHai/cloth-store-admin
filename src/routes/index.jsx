@@ -4,7 +4,6 @@ import AuthRoute from './AuthRoute';
 
 import * as pages from '../pages';
 import PrivateRoute from './PrivateRoute';
-import Wrapper from '../components/Wrapper';
 
 export default function routes() {
   return (

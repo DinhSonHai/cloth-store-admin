@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { logout } from '../../../redux/actions/auth';
 // import PropTypes from 'prop-types';
 
@@ -12,7 +12,6 @@ NavBar.propTypes = {
 };
 
 function NavBar({ user, logout }) {
-  const history = useHistory();
   const location = useLocation().pathname;
 
   const matchRoute = (route) => {

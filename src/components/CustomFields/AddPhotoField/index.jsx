@@ -43,7 +43,7 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
     if (photos) {
       setPhotoList(photos);
     }
-  }, [photos]);
+  }, [photos, setPhotoList]);
 
   return (
     <div className="add-photo-field">

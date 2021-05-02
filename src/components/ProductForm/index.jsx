@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
@@ -52,7 +52,6 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
 
   const handleCancel = () => {
     // return history.push("/admin/products");
-    console.log('cancel')
     return history.goBack();
   }
 
@@ -94,7 +93,6 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
             const photos = photoList.filter(photo => photo);
 
             async function sendData() {
-              console.log('edit')
               setLoading(true);
               const result = await editProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos }, productId);
               setLoading(false);

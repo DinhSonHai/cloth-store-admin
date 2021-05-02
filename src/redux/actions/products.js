@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { GET_ALL_PRODUCTS, ADD_PRODUCT_SUCCESS, GET_PRODUCT_BY_ID } from '../types';
+import { GET_ALL_PRODUCTS, GET_PRODUCT_BY_ID } from '../types';
 
 // Action creator
 export const getAllProductsForAdmin = (sort, page, limit) => async (dispatch) => {

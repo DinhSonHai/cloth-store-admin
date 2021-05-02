@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Select from 'react-select';
-import { ErrorMessage, useField, Field } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 
 import './styles.scss';
 

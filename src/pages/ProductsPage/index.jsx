@@ -39,24 +39,6 @@ function ProductsPage({ products: { products, total }, getAllProductsForAdmin, g
   const [currentLimit, setCurrentLimit] = useState(limit || 6);
   const [keyWord, setKeyWord] = useState(q || '');
 
-  useEffect(() => {
-    async function handleGetData() {
-      setLoading(true);
-      if (q) {
-        await getSearchAllProductsForAdmin(keyWord, sortState, currentPage, currentLimit);
-      }
-      else {
-        await getAllProductsForAdmin(sortState, currentPage, currentLimit);
-      }
-      setLoading(false);
-    }
-    handleGetData();
-    document.addEventListener('click', closeLimit);
-    return () => {
-      document.removeEventListener('click', closeLimit)
-    }
-  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit]);
-
   const handleSearchInputChange = (e) => {
     setKeyWord(e.target.value);
     if (!e.target.value) {
@@ -189,7 +171,7 @@ function ProductsPage({ products: { products, total }, getAllProductsForAdmin, g
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit]);
+  }, [getAllProductsForAdmin, getSearchAllProductsForAdmin, q, sort, page, limit, sortState, currentPage, currentLimit]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Wrapper>

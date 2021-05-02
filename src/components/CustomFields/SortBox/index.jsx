@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { DropDown } from '../../../assets/icons';
-import { useHistory } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
 import './styles.scss';

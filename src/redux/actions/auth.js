@@ -7,7 +7,6 @@ import {
   LOG_OUT
 } from '../types';
 import { toast } from 'react-toastify';
-import setAuthToken from '../../utils/setAuthToken';
 
 // Load Admin
 export const loadUser = () => async (dispatch) => {
@@ -52,7 +51,7 @@ export const login = ({ email, password }) => async (dispatch) => {
 }
 
 // Change info
-export const changeInfo = ({ name }) => async (dispatch) => {
+export const changeInfo = ({ name }, setEdit) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -62,6 +61,7 @@ export const changeInfo = ({ name }) => async (dispatch) => {
   try {
     const res = await axios.put('/api/auth/admin/info', body, config);
     dispatch(loadUser());
+    setEdit(false);
     toast.success(res.data.message, { position: toast.POSITION.TOP_CENTER });
   } catch (err) {
     const error = err.response.data;
