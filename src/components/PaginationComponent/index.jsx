@@ -56,16 +56,11 @@ function PaginationComponent({ currentPage, setCurrentPage, handlePagination, to
             )}
 
             {pages.map(page => {
-              // let activePage = { backgroundColor: "var(--white)", width: "32px", height: "32px" };
-              // if (currentPage === page) {
-              //   activePage = { backgroundColor: "#ffa15f", width: "32px", height: "32px", color: "var(--white)" };
-              // }
               return (
                 <button
                   {...getPageItemProps({
                     pageValue: page,
                     key: page,
-                    // style: activePage,
                     onPageChange: handlePageChange,
                     className: currentPage === page ? "page__item page__item--active" : "page__item"
                   })}

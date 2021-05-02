@@ -36,7 +36,7 @@ function LoginPage({ auth, login }) {
       </div>
       <div className="form-login">
         <h1 className="form__title">Log In</h1>
-        {auth?.error?.type === 'login' && (<p className="content__error">{auth.error.message}</p>)}
+        {auth.error && auth.error.type === 'login' && (<p className="content__error">{auth.error.message}</p>)}
         <Formik
           initialValues={{
             email: '',

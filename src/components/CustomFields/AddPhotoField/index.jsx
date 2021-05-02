@@ -65,9 +65,8 @@ function AddPhotoField({ photoList, setPhotoList, photos }) {
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <label htmlFor={`input${index}`}>
-                      <input type="file" id={`input${index}`} name={`input${index}`} onChange={(e) => handleChange(e, index)} disabled={!isComplete} />
-                    </label>
+                    <label htmlFor={`input${index}`} className={isComplete ? "label-input" : "label-input label-input--disabled"}></label>
+                    <input type="file" id={`input${index}`} name={`input${index}`} onChange={(e) => handleChange(e, index)} disabled={!isComplete} />
                     <div className="add-item">
                       <AddIcon />
                       <p>Add photo</p>

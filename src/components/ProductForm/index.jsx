@@ -151,7 +151,6 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
             const colors = values.colors.map(item => item.value);
             const photos = photoList.filter(photo => photo);
             async function sendData() {
-              console.log('add')
               setLoading(true);
               const result = await addProduct({ ...values, categories, sizes, colors, brandId: values.brand, photos });
               setLoading(false);

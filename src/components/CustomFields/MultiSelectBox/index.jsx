@@ -9,10 +9,6 @@ MultiSelectBox.propTypes = {
 };
 
 function MultiSelectBox({ id, name, label, width, height, labelColor, backgroundColor, options, defaultValue, ...props }) {
-  // const options = [
-  //   { value: 'cancel', label: 'Cancle order' },
-  //   { value: 'hello', label: 'Hello' }
-  // ];
   const [selectedOption, setSelectedOption] = useState(null);
 
   const customStyles = {

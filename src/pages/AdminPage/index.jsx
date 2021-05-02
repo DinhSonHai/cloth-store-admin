@@ -95,7 +95,7 @@ function AdminPage({ auth, changeInfo, changePassword }) {
                   >
                     {formik => (
                       <Form className="content__form">
-                        {auth?.error?.type === 'changeInfo' && (<p className="content__error">{auth.error.message}</p>)}
+                        {auth.error && auth.error.type === 'changeInfo' && (<p className="content__error">{auth.error.message}</p>)}
                         <p className="field__label">NAME</p>
                         <TextField type="text" id="name" name="name" placeholder="Enter your name..." width={"380px"} height={"46px"} backgroundColor={"var(--white)"} />
 
@@ -154,7 +154,7 @@ function AdminPage({ auth, changeInfo, changePassword }) {
                   >
                     {formik => (
                       <Form className="content__form">
-                        {auth?.error?.type === 'changePassword' && (<p className="content__error">{auth.error.message}</p>)}
+                        {auth.error && auth.error.type === 'changePassword' && (<p className="content__error">{auth.error.message}</p>)}
                         <p className="field__label">CURRENT PASSWORD</p>
                         <TextField type="password" id="currentPassword" name="currentPassword" placeholder="Enter your password..." width={"380px"} height={"46px"} backgroundColor={"var(--white)"} />
                         <p className="field__label">NEW PASSWORD</p>

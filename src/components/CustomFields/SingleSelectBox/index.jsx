@@ -48,12 +48,6 @@ function SingleSelectBox({ id, name, label, width, height, labelColor, backgroun
     setFieldValue(name, option.value);
   }
 
-  // useEffect(() => {
-  //   if (!(defaultValue?.value !== selectedOption?.value)) {
-  //     setSelectedOption(defaultValue);
-  //   }
-  // }, [defaultValue, selectedOption]);
-
   return (
     <Field id={id} name={name}>
       {({ field, form: { setFieldValue } }) => (
