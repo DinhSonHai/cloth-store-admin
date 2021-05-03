@@ -13,8 +13,8 @@ function App() {
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
-      store.dispatch(loadUser());
     }
+    store.dispatch(loadUser());
 
     window.addEventListener('storage', () => {
       if (localStorage.token) {
