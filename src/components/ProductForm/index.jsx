@@ -56,17 +56,24 @@ function ProductForm({ product, categories, brands, sizes, colors, getProductByI
   }
 
   useEffect(() => {
-    if (productId) {
-      getProductById(productId);
+    async function getData() {
+      if (productId) {
+        setLoading(true);
+        await getProductById(productId);
+        setLoading(false);
+      }
+      getAllCategories();
+      getAllBrands();
+      getAllSizes();
+      getAllColors();
     }
-    getAllCategories();
-    getAllBrands();
-    getAllSizes();
-    getAllColors();
+
+    getData();
   }, [getAllCategories, getAllBrands, getAllSizes, getAllColors, getProductById, productId]);
   return (
     <div className="product__form">
-      {productId && product ? (
+
+      { loading ? (<Spinner width="200px" />) : productId && product ? (
         <AddPhotoField photoList={photoList} setPhotoList={setPhotoList} photos={product.photos} />
       ) : (
         <AddPhotoField photoList={photoList} setPhotoList={setPhotoList} />
