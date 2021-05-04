@@ -220,7 +220,7 @@ function OrdersPage({ orders: { orders, total }, getAllOrdersForAdmin, getSearch
     return () => {
       document.removeEventListener('click', closeLimit)
     }
-  }, [getAllOrdersForAdmin, getSearchAllOrdersForAdmin, q, sort, page, limit, from, to, sortState, currentPage, currentLimit, value, keyWord]);
+  }, [getAllOrdersForAdmin, getSearchAllOrdersForAdmin, q, sort, page, limit, from, to, sortState, currentPage, currentLimit, value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Wrapper>
